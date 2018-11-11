@@ -1,0 +1,81 @@
+//16061075 黄霁昀 测试用例及输出
+Test case 1:
+Input:
+1 1 q
+Output:
+2
+
+Test case 2:
+Input:
+2 1 q
+Output:
+q
+
+Test case 3:
+Input:
+1 2 a
+Output:
+<
+
+Test case 4:
+Input:
+7 1111 a
+Ouput:
+<=
+
+Test case 5:
+Input:
+17 1111 a
+Output:
+==
+
+Test case 6:
+Input:
+77 1111 a
+Output:
+>=
+
+Test case 7:
+Input:
+888 1111 a
+Output:
+>
+
+Test case 8:
+Input:
+1 2 -
+Output:
+ !#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}
+10
+%ca
+
+Test case 9:
+Input:
+1 2 /
+Output:
+0 1 2 3 4 5 6 7 8 9
+
+Test case 10:
+Input:
+-1 2 z
+Output:
+n cannot be smaller or equal than 0!
+-1
+
+Test case 11:
+Input:
+1 2 z
+Output:
+1
+
+Test case 12:
+Input:
+2 3 z
+Output:
+1
+
+Test case 13:
+Input:
+5 6 z
+Output:
+5
