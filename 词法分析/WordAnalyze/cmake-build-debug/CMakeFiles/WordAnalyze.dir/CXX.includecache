@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/jjjjjjjiyun/CLionProjects/WordAnalyze/Lexer.h
+string
+-
+iostream
+-
+fstream
+-
+string
+-
+sstream
+-
+definition.h
+/Users/jjjjjjjiyun/CLionProjects/WordAnalyze/definition.h
+
+/Users/jjjjjjjiyun/CLionProjects/WordAnalyze/definition.h
+
+/Users/jjjjjjjiyun/CLionProjects/WordAnalyze/lexer.cpp
+stdio.h
+-
+Lexer.h
+/Users/jjjjjjjiyun/CLionProjects/WordAnalyze/Lexer.h
+
