@@ -6,7 +6,7 @@
 #include "Lexer.h"
 
 string Lexer::path, Lexer::token, Lexer::inputLine;
-int Lexer::sym, Lexer::lineLength, Lexer::current, Lexer::line, Lexer::count;
+int Lexer::sym, Lexer::lineLength, Lexer::current, Lexer::line, Lexer::count1, Lexer::count2;
 char Lexer::ch;
 ifstream Lexer::infile;
 ofstream Lexer::outfile;
@@ -14,7 +14,8 @@ ofstream Lexer::outfile;
 
 void Lexer::init() {
     line = 0;
-    count = 1;
+    count1 = 1;
+    count2 = 1;
     lineLength = 0;
     current = 0;
     cin >> path;
@@ -26,6 +27,7 @@ void Lexer::run() {
     while (infile.good()) {
         getSym();
         output();
+        outputToFile();
     }
 }
 
@@ -128,116 +130,233 @@ bool Lexer::isLegalString() {
 void Lexer::output() {
     switch (sym) {
         case PLUS:
-            outfile << count++ << " PLUS +" << endl;
+            cout << count1++ << " PLUS +" << endl;
             break;
         case MINUS:
-            outfile << count++ << " MINUS -" << endl;
+            cout << count1++ << " MINUS -" << endl;
             break;
         case MULTI:
-            outfile << count++ << " MULTI *" << endl;
+            cout << count1++ << " MULTI *" << endl;
             break;
         case DIVIDE:
-            outfile << count++ << " divide /" << endl;
+            cout << count1++ << " divide /" << endl;
             break;
         case LESS:
-            outfile << count++ << " LESS <" << endl;
+            cout << count1++ << " LESS <" << endl;
             break;
         case LESSEQU:
-            outfile << count++ << " LESSEQU <=" << endl;
+            cout << count1++ << " LESSEQU <=" << endl;
             break;
         case GREATEQU:
-            outfile << count++ << " GREATEQU >=" << endl;
+            cout << count1++ << " GREATEQU >=" << endl;
             break;
         case GREAT:
-            outfile << count++ << " GREAT >" << endl;
+            cout << count1++ << " GREAT >" << endl;
             break;
         case NEQUAL:
-            outfile << count++ << " NEQUAL !=" << endl;
+            cout << count1++ << " NEQUAL !=" << endl;
             break;
         case EQUAL:
-            outfile << count++ << " EQUAL ==" << endl;
+            cout << count1++ << " EQUAL ==" << endl;
             break;
         case ASSIGN:
-            outfile << count++ << " ASSIGN =" << endl;
+            cout << count1++ << " ASSIGN =" << endl;
             break;
         case LPARENT:
-            outfile << count++ << " LPARENT (" << endl;
+            cout << count1++ << " LPARENT (" << endl;
             break;
         case RPARENT:
-            outfile << count++ << " RPARENT )" << endl;
+            cout << count1++ << " RPARENT )" << endl;
             break;
         case LBRACK:
-            outfile << count++ << " LBRACK [" << endl;
+            cout << count1++ << " LBRACK [" << endl;
             break;
         case RBRACK:
-            outfile << count++ << " RBRACK ]" << endl;
+            cout << count1++ << " RBRACK ]" << endl;
             break;
         case LBRACE:
-            outfile << count++ << " LBRACE {" << endl;
+            cout << count1++ << " LBRACE {" << endl;
             break;
         case RBRACE:
-            outfile << count++ << " RBRACE }" << endl;
+            cout << count1++ << " RBRACE }" << endl;
             break;
         case COMMA:
-            outfile << count++ << " COMMA ," << endl;
+            cout << count1++ << " COMMA ," << endl;
             break;
         case SEMICOLON:
-            outfile << count++ << " SEMICOLON ;" << endl;
+            cout << count1++ << " SEMICOLON ;" << endl;
             break;
         case ID:
-            outfile << count++ << " ID " + token << endl;
+            cout << count1++ << " ID " + token << endl;
             break;
         case NUM:
-            outfile << count++ << " NUM " + token << endl;
+            cout << count1++ << " NUM " + token << endl;
             break;
         case CHAR:
-            outfile << count++ << " QUOTE '" << endl;
-            outfile << count++ << " CHAR " + token << endl;
-            outfile << count++ << " QUOTE '" << endl;
+            cout << count1++ << " QUOTE '" << endl;
+            cout << count1++ << " CHAR " + token << endl;
+            cout << count1++ << " QUOTE '" << endl;
             break;
         case STRING:
-            outfile << count++ << " DOUQUOTE \"" << endl;
-            outfile << count++ << " STRING " + token << endl;
-            outfile << count++ << " DOUQUOTE \"" << endl;
+            cout << count1++ << " DOUQUOTE \"" << endl;
+            cout << count1++ << " STRING " + token << endl;
+            cout << count1++ << " DOUQUOTE \"" << endl;
             break;
         case MAINSYM:
-            outfile << count++ << " MAINSYM main" << endl;
+            cout << count1++ << " MAINSYM main" << endl;
             break;
         case INTSYM:
-            outfile << count++ << " INTSYM int" << endl;
+            cout << count1++ << " INTSYM int" << endl;
             break;
         case CHARSYM:
-            outfile << count++ << " CHARSYM char" << endl;
+            cout << count1++ << " CHARSYM char" << endl;
             break;
         case CONSTSYM:
-            outfile << count++ << " CONSTSYM const" << endl;
+            cout << count1++ << " CONSTSYM const" << endl;
             break;
         case VOIDSYM:
-            outfile << count++ << " VOIDSYM void" << endl;
+            cout << count1++ << " VOIDSYM void" << endl;
             break;
         case IFSYM:
-            outfile << count++ << " IFSYM if" << endl;
+            cout << count1++ << " IFSYM if" << endl;
             break;
         case ELSESYM:
-            outfile << count++ << " ELSESYM else" << endl;
+            cout << count1++ << " ELSESYM else" << endl;
             break;
         case DOSYM:
-            outfile << count++ << " DOSYM do" << endl;
+            cout << count1++ << " DOSYM do" << endl;
             break;
         case WHILESYM:
-            outfile << count++ << " WHILESYM while" << endl;
+            cout << count1++ << " WHILESYM while" << endl;
             break;
         case FORSYM:
-            outfile << count++ << " FORSYM for" << endl;
+            cout << count1++ << " FORSYM for" << endl;
             break;
         case SCANFSYM:
-            outfile << count++ << " SCANFSYM scanf" << endl;
+            cout << count1++ << " SCANFSYM scanf" << endl;
             break;
         case PRINTFSYM:
-            outfile << count++ << " PRINTFSYM printf" << endl;
+            cout << count1++ << " PRINTFSYM printf" << endl;
             break;
         case RETURNSYM:
-            outfile << count++ << " RETURNSYM return" << endl;
+            cout << count1++ << " RETURNSYM return" << endl;
+            break;
+    }
+}
+
+void Lexer::outputToFile() {
+    switch (sym) {
+        case PLUS:
+            outfile << count2++ << " PLUS +" << endl;
+            break;
+        case MINUS:
+            outfile << count2++ << " MINUS -" << endl;
+            break;
+        case MULTI:
+            outfile << count2++ << " MULTI *" << endl;
+            break;
+        case DIVIDE:
+            outfile << count2++ << " divide /" << endl;
+            break;
+        case LESS:
+            outfile << count2++ << " LESS <" << endl;
+            break;
+        case LESSEQU:
+            outfile << count2++ << " LESSEQU <=" << endl;
+            break;
+        case GREATEQU:
+            outfile << count2++ << " GREATEQU >=" << endl;
+            break;
+        case GREAT:
+            outfile << count2++ << " GREAT >" << endl;
+            break;
+        case NEQUAL:
+            outfile << count2++ << " NEQUAL !=" << endl;
+            break;
+        case EQUAL:
+            outfile << count2++ << " EQUAL ==" << endl;
+            break;
+        case ASSIGN:
+            outfile << count2++ << " ASSIGN =" << endl;
+            break;
+        case LPARENT:
+            outfile << count2++ << " LPARENT (" << endl;
+            break;
+        case RPARENT:
+            outfile << count2++ << " RPARENT )" << endl;
+            break;
+        case LBRACK:
+            outfile << count2++ << " LBRACK [" << endl;
+            break;
+        case RBRACK:
+            outfile << count2++ << " RBRACK ]" << endl;
+            break;
+        case LBRACE:
+            outfile << count2++ << " LBRACE {" << endl;
+            break;
+        case RBRACE:
+            outfile << count2++ << " RBRACE }" << endl;
+            break;
+        case COMMA:
+            outfile << count2++ << " COMMA ," << endl;
+            break;
+        case SEMICOLON:
+            outfile << count2++ << " SEMICOLON ;" << endl;
+            break;
+        case ID:
+            outfile << count2++ << " ID " + token << endl;
+            break;
+        case NUM:
+            outfile << count2++ << " NUM " + token << endl;
+            break;
+        case CHAR:
+            outfile << count2++ << " QUOTE '" << endl;
+            outfile << count2++ << " CHAR " + token << endl;
+            outfile << count2++ << " QUOTE '" << endl;
+            break;
+        case STRING:
+            outfile << count2++ << " DOUQUOTE \"" << endl;
+            outfile << count2++ << " STRING " + token << endl;
+            outfile << count2++ << " DOUQUOTE \"" << endl;
+            break;
+        case MAINSYM:
+            outfile << count2++ << " MAINSYM main" << endl;
+            break;
+        case INTSYM:
+            outfile << count2++ << " INTSYM int" << endl;
+            break;
+        case CHARSYM:
+            outfile << count2++ << " CHARSYM char" << endl;
+            break;
+        case CONSTSYM:
+            outfile << count2++ << " CONSTSYM const" << endl;
+            break;
+        case VOIDSYM:
+            outfile << count2++ << " VOIDSYM void" << endl;
+            break;
+        case IFSYM:
+            outfile << count2++ << " IFSYM if" << endl;
+            break;
+        case ELSESYM:
+            outfile << count2++ << " ELSESYM else" << endl;
+            break;
+        case DOSYM:
+            outfile << count2++ << " DOSYM do" << endl;
+            break;
+        case WHILESYM:
+            outfile << count2++ << " WHILESYM while" << endl;
+            break;
+        case FORSYM:
+            outfile << count2++ << " FORSYM for" << endl;
+            break;
+        case SCANFSYM:
+            outfile << count2++ << " SCANFSYM scanf" << endl;
+            break;
+        case PRINTFSYM:
+            outfile << count2++ << " PRINTFSYM printf" << endl;
+            break;
+        case RETURNSYM:
+            outfile << count2++ << " RETURNSYM return" << endl;
             break;
     }
 }
