@@ -226,7 +226,7 @@ void Compiler::output() {
 }
 
 void Compiler::getSym() {
-    sym = 0;
+    sym = NONE;
     freshToken();
     getChar();
     skip();
@@ -286,7 +286,7 @@ void Compiler::getSym() {
             sym = STRING;
             return;
         }
-        while (ch != '\"' && isLegalString() && ch != 0) {
+        while (ch != '\"' && isLegalString() && ch != 0 && current<lineLength) {
             constructToken();
             getChar();
         }
@@ -295,8 +295,6 @@ void Compiler::getSym() {
         else {
             this->errorHandle(DQERROR);
             sym = 0;
-            while (ch != '\"' && ch != 0)
-                getChar();    //跳过无用字符
         }
     } else if (ch == '+')
         sym = PLUS;

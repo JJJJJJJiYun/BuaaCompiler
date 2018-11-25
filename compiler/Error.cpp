@@ -12,6 +12,8 @@ void Compiler::errorHandle(int id) {
     error->token = new std::string(this->token);
     error->line = this->line;
     this->errorList.push_back(error);
+    std::cout << "line " << this->line << ":" << this->token << " have " << errorMessage[id] << std::endl;
+
 }
 
 bool Compiler::isInTarget(const int target[], const int size) {
@@ -22,16 +24,16 @@ bool Compiler::isInTarget(const int target[], const int size) {
 }
 
 void Compiler::skip(int id) {
-    while (this->sym != id) this->getSym();
+    while (this->sym != id && !this->isEOF()) this->getSym();
 }
 
 void Compiler::skip(const int target[], const int size) {
-    while (!this->isInTarget(target, size) && !isEOF()) this->getSym();
+    while (!this->isInTarget(target, size) && !this->isEOF()) this->getSym();
 }
 
 void Compiler::printError() {
-    for(int i=0;i<this->errorList.size();i++){
+    for (int i = 0; i < this->errorList.size(); i++) {
         error *err = errorList[i];
-        std::cout << *err->token << "\t" << err->line << "\t" << err->id<<std::endl;
+        this->errorOutFile << "line " << err->line << ":" << *err->token << " have " << errorMessage[err->id] << std::endl;
     }
 }

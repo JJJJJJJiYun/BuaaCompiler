@@ -40,14 +40,14 @@ void Compiler::constructInt(int *value) {
             flag = this->sym == MINUS;
             this->getSym();
             if (this->sym == UNSIGNEDINT) {
-                result = std::atoi(this->token.c_str());
+                result = atoi(this->token.c_str());
                 this->getSym();
             } else {
                 this->errorHandle(UNSIGNEDINTERROR);
                 this->skip(NUM, NUM_SIZE);
             }
         } else {
-            result = std::atoi(this->token.c_str());
+            result = atoi(this->token.c_str());
             this->getSym();
         }
     }
@@ -55,33 +55,35 @@ void Compiler::constructInt(int *value) {
 }
 
 void Compiler::constDef() {
-    std::cout << "const def" << std::endl;
+    this->syntaxOutFile << "const def" << std::endl;
     int symbolType = CONSTSYM;
     if (this->sym == INTSYM) {
         int returnType = INTSYM;
         do {
-            std::cout << "num const" << std::endl;
+            this->syntaxOutFile << "num const" << std::endl;
             int value = 0;
             std::string *name = 0;
             this->getSym();
             if (this->sym == ID) {
                 name = new std::string(this->token);
                 this->getSym();
-                if (this->sym == ASSIGN)
+                if (this->sym == ASSIGN) {
                     this->getSym();
+                    if (this->isInTarget(INT, INT_SIZE)) {
+                        this->constructInt(&value);
+                        symbol *sym = 0;
+                        if (!this->find(name, &sym, true))
+                            this->push(name, returnType, symbolType, value, this->line);
+                        else
+                            this->errorHandle(DUPLICATEERROR);
+                    } else {
+                        this->errorHandle(INTERROR);
+                        this->skip(END, END_SIZE);
+                    }
+                }
                 else {
                     this->errorHandle(ASSIGNERROR);
-                    this->skip(INT, INT_SIZE);
-                }
-                if (this->isInTarget(INT, INT_SIZE)) {
-                    this->constructInt(&value);
-                    symbol *sym = 0;
-                    if (!this->find(name, &sym, true))
-                        this->push(name, returnType, symbolType, value, this->line);
-                    else this->errorHandle(DUPLICATEERROR);
-                } else {
-                    this->errorHandle(INTERROR);
-                    this->skip(END, END_SIZE);
+                    this->skip(END,END_SIZE);
                 }
             } else {
                 this->errorHandle(IDERROR);
@@ -91,27 +93,31 @@ void Compiler::constDef() {
     } else if (this->sym == CHARSYM) {
         int returnType = CHARSYM;
         do {
-            std::cout << "char const" << std::endl;
+            this->syntaxOutFile << "char const" << std::endl;
             int value = 0;
             std::string *name = 0;
             this->getSym();
             if (this->sym == ID) {
                 name = new std::string(this->token);
                 this->getSym();
-                if (this->sym == ASSIGN) this->getSym();
+                if (this->sym == ASSIGN) {
+                    this->getSym();
+                    if (this->sym == CHAR) {
+                        value = this->token[0];
+                        symbol *sym = 0;
+                        if (!this->find(name, &sym, true))
+                            this->push(name, returnType, symbolType, value, this->line);
+                        else
+                            this->errorHandle(DUPLICATEERROR);
+                        this->getSym();
+                    } else {
+                        this->errorHandle(SINGLECHARERROR);
+                        this->skip(END, END_SIZE);
+                    }
+                }
                 else {
                     this->errorHandle(SINGLECHARERROR);
-                    this->skip(CHAR);
-                }
-                if (this->sym == CHAR) {
-                    value = this->token[0];
-                    symbol *sym = 0;
-                    if (!this->find(name, &sym, true)) this->push(name, returnType, symbolType, value, this->line);
-                    else this->errorHandle(DUPLICATEERROR);
-                    this->getSym();
-                } else {
-                    this->errorHandle(SINGLECHARERROR);
-                    this->skip(END, END_SIZE);
+                    this->skip(END,END_SIZE);
                 }
             } else {
                 this->errorHandle(IDERROR);
@@ -122,7 +128,7 @@ void Compiler::constDef() {
         this->errorHandle(INTORCHARERROR);
         this->skip(SEMICOLON);
     }
-    std::cout << "const def end" << std::endl;
+    this->syntaxOutFile << "const def end" << std::endl;
 }
 
 void Compiler::constState() {
@@ -160,21 +166,23 @@ void Compiler::genTemp(std::string *temp) {
 }
 
 void Compiler::varDef(int returnType, std::string *name) {
-    std::cout << "var def" << std::endl;
+    this->syntaxOutFile << "var def" << std::endl;
     symbol *sym = 0;
     if (this->find(name, &sym, true))
         this->errorHandle(DUPLICATEERROR);
     if (this->sym == SEMICOLON) {
         this->push(name, returnType, SIMPLESYM, -1, this->line);
         this->getSym();
+        this->syntaxOutFile << "var" << std::endl;
+        this->syntaxOutFile << "var def end" << std::endl;
         return;
     }
     if (this->sym == LBRACK) {
-        std::cout << "var" << std::endl;
+        this->syntaxOutFile << "var" << std::endl;
         int feature = -1;
         this->getSym();
         if (this->sym == UNSIGNEDINT) {
-            feature = std::atoi(this->token.c_str());
+            feature = atoi(this->token.c_str());
             this->getSym();
         } else
             this->errorHandle(UNSIGNEDINTERROR);
@@ -184,12 +192,12 @@ void Compiler::varDef(int returnType, std::string *name) {
         } else
             this->errorHandle(RBRACKERROR);
     } else {
-        std::cout << "var" << std::endl;
+        this->syntaxOutFile << "var" << std::endl;
         this->push(name, returnType, SIMPLESYM, -1, this->line);
     }
 
     while (this->sym == COMMA) {
-        std::cout << "var" << std::endl;
+        this->syntaxOutFile << "var" << std::endl;
         std::string *name2 = 0;
         this->getSym();
         if (this->sym == ID) {
@@ -204,7 +212,7 @@ void Compiler::varDef(int returnType, std::string *name) {
         if (this->sym == LBRACK) {
             this->getSym();
             if (this->sym == UNSIGNEDINT) {
-                feature = std::atoi(this->token.c_str());
+                feature = atoi(this->token.c_str());
                 this->getSym();
             } else
                 this->errorHandle(UNSIGNEDINTERROR);
@@ -217,7 +225,7 @@ void Compiler::varDef(int returnType, std::string *name) {
             this->push(name2, returnType, SIMPLESYM, -1, this->line);
         }
     }
-    std::cout << "var def end" << std::endl;
+    this->syntaxOutFile << "var def end" << std::endl;
     if (this->sym == SEMICOLON)
         this->getSym();
     else
@@ -225,7 +233,7 @@ void Compiler::varDef(int returnType, std::string *name) {
 }
 
 void Compiler::paraProcess(symbol *sym) {
-    std::cout << "para process" << std::endl;
+    this->syntaxOutFile << "para process" << std::endl;
     std::string *name = 0;
     int returnType = NONE;
     this->getReturnType(&returnType, &name);
@@ -233,7 +241,7 @@ void Compiler::paraProcess(symbol *sym) {
         name = new std::string();
         this->genTemp(name);
     }
-    std::cout << "para" << std::endl;
+    this->syntaxOutFile << "para" << std::endl;
     sym->paraList[sym->feature++] = returnType;
     symbol *temp = 0;
     if (this->find(name, &temp, true)) {
@@ -242,7 +250,7 @@ void Compiler::paraProcess(symbol *sym) {
     } else
         this->push(name, returnType, PARASYM, -1, this->line);
     while (this->sym == COMMA) {
-        std::cout << "para" << std::endl;
+        this->syntaxOutFile << "para" << std::endl;
         std::string *name = 0;
         int returnType = NONE;
         this->getSym();
@@ -259,7 +267,7 @@ void Compiler::paraProcess(symbol *sym) {
         } else
             this->push(name, returnType, PARASYM, -1, this->line);
     }
-    std::cout << "para process end" << std::endl;
+    this->syntaxOutFile << "para process end" << std::endl;
 }
 
 void Compiler::varState() {
@@ -579,7 +587,7 @@ void Compiler::genLabel(std::string *label) {
 }
 
 void Compiler::conditionProcess(std::string *label) {
-    std::cout << "condition statement" << std::endl;
+    this->syntaxOutFile << "condition statement" << std::endl;
     int returnType = NONE;
     std::string operand1 = std::string();
     this->expressionProcess(&returnType, &operand1);
@@ -596,7 +604,7 @@ void Compiler::conditionProcess(std::string *label) {
 }
 
 void Compiler::ifProcess(bool *flag, int returnType, std::string *name) {
-    std::cout << "if statement" << std::endl;
+    this->syntaxOutFile << "if statement" << std::endl;
     this->getSym();
     if (this->sym == LPARENT)
         this->getSym();
@@ -618,22 +626,20 @@ void Compiler::ifProcess(bool *flag, int returnType, std::string *name) {
     else
         this->errorHandle(STATEMENTERROR);
     //todo
-    if(this->sym == ELSESYM) {
-        std::cout << "else statement" << std::endl;
+    if (this->sym == ELSESYM) {
+        this->syntaxOutFile << "else statement" << std::endl;
         this->getSym();
-        if(this->isInTarget(STATEMENT,STATEMENT_SIZE))
-            this->statementProcess(flag,returnType,name);
-        else{
+        if (this->isInTarget(STATEMENT, STATEMENT_SIZE))
+            this->statementProcess(flag, returnType, name);
+        else {
             this->errorHandle(STATEMENTERROR);
-            this->skip(STATEMENT,STATEMENT_SIZE);
+            this->skip(STATEMENT, STATEMENT_SIZE);
         }
     }
-    else
-        this->skip(STATEMENT,STATEMENT_SIZE);
 }
 
 void Compiler::scanfProcess() {
-    std::cout << "scanf" << std::endl;
+    this->syntaxOutFile << "scanf" << std::endl;
     this->getSym();
     if (this->sym == LPARENT)
         this->getSym();
@@ -695,13 +701,17 @@ void Compiler::scanfProcess() {
 }
 
 void Compiler::printfProcess() {
-    std::cout << "printf" << std::endl;
+    this->syntaxOutFile << "printf" << std::endl;
     std::string *num = 0;
     this->getSym();
     if (this->sym == LPARENT)
         this->getSym();
     else
         this->errorHandle(LPARENTERROR);
+    if(this->sym == -1 || this->sym == NONE){
+        getSym();
+        return;
+    }
     if (this->sym == STRING) {
         int index = -1;
         this->pushString(new std::string(this->token), &index);
@@ -716,6 +726,10 @@ void Compiler::printfProcess() {
             else
                 this->errorHandle(RPARENTERROR);
             //todo
+            if(this->sym == SEMICOLON)
+                this->getSym();
+            else
+                this->errorHandle(SEMICOLONERROR);
             return;
         }
     }
@@ -742,7 +756,7 @@ void Compiler::printfProcess() {
 }
 
 void Compiler::returnProcess(bool *flag, int returnType, std::string *name) {
-    std::cout << "return" << std::endl;
+    this->syntaxOutFile << "return" << std::endl;
     this->getSym();
     if (this->sym == LPARENT) {
         this->getSym();
@@ -772,7 +786,7 @@ void Compiler::returnProcess(bool *flag, int returnType, std::string *name) {
 }
 
 void Compiler::doWhileProcess(bool *flag, int returnType, std::string *name) {
-    std::cout << "do statement" << std::endl;
+    this->syntaxOutFile << "do statement" << std::endl;
     std::string *doLabel = new std::string();
     std::string *endLabel = new std::string();
     this->genLabel(doLabel);
@@ -784,7 +798,7 @@ void Compiler::doWhileProcess(bool *flag, int returnType, std::string *name) {
     else
         this->errorHandle(STATEMENTERROR);
     if (this->sym == WHILESYM) {
-        std::cout << "while statement" << std::endl;
+        this->syntaxOutFile << "while statement" << std::endl;
         this->getSym();
         if (this->sym == LPARENT)
             this->getSym();
@@ -803,7 +817,7 @@ void Compiler::doWhileProcess(bool *flag, int returnType, std::string *name) {
 }
 
 void Compiler::forProcess(bool *flag, int returnType, std::string *name) {
-    std::cout << "for statement" << std::endl;
+    this->syntaxOutFile << "for statement" << std::endl;
     std::string *doLabel = new std::string();
     std::string *endLabel = new std::string();
     this->genLabel(doLabel);
@@ -812,7 +826,7 @@ void Compiler::forProcess(bool *flag, int returnType, std::string *name) {
     if (this->sym == LPARENT) {
         this->getSym();
         if (this->sym == ID) {
-            this->reassignProcess(flag, returnType, new std::string(this->token));
+            this->forAssignProcess(flag, returnType, new std::string(this->token), true);
         } else {
             this->errorHandle(IDERROR);
             this->skip(SEMICOLON);
@@ -823,24 +837,59 @@ void Compiler::forProcess(bool *flag, int returnType, std::string *name) {
         else
             this->errorHandle(SEMICOLONERROR);
         if (this->sym == ID) {
-            this->reassignProcess(flag, returnType, new std::string(this->token));
+            this->forAssignProcess(flag, returnType, new std::string(this->token), false);
         } else {
             this->errorHandle(IDERROR);
             this->skip(SEMICOLON);
         }
-        if(this->sym == RPARENT)
-            this->getSym();
-        else {
-            this->errorHandle(RPARENTERROR);
-            this->skip(STATEMENT,STATEMENT_SIZE);
-        }
         this->statementProcess(flag, returnType, name);
     } else
         this->errorHandle(LPARENTERROR);
-    std::cout << "for statement end" << std::endl;
+    this->syntaxOutFile << "for statement end" << std::endl;
 }
 
-void Compiler::reassignProcess(bool *flag, int returnType, std::string *name) {
+void Compiler::forAssignProcess(bool *flag, int returnType, std::string *name, bool first) {
+    symbol *sym = 0;
+    if (!this->find(name, &sym, false)) {
+        this->errorHandle(IDDEFINEERROR);
+        this->skip(SEMICOLON);
+        return;
+    }
+    this->getSym();
+    if (this->sym == ASSIGN) {
+        this->syntaxOutFile << "for assign statement" << std::endl;
+        if (sym->symbolType != SIMPLESYM && sym->symbolType != PARASYM)
+            this->errorHandle(SIMPLEVARERROR);
+        this->getSym();
+        int returnType2 = NONE;
+        std::string operand = std::string();
+        this->expressionProcess(&returnType2, &operand);
+        if (sym->returnType == CHARSYM && returnType2 == INTSYM)
+            this->errorHandle(ILLEGALASSERROR);
+        if (this->isOperandTemp(&operand)) {
+            //todo
+        } else {
+            //todo
+        }
+        if(first) {
+            if (this->sym == SEMICOLON)
+                this->getSym();
+            else this->errorHandle(SEMICOLON);
+        }
+        else{
+            if(this->sym == RPARENT)
+                this->getSym();
+            else {
+                this->errorHandle(RPARENTERROR);
+                this->skip(STATEMENT,STATEMENT_SIZE);
+            }
+        }
+    } else
+        this->errorHandle(ASSIGNERROR);
+
+}
+
+void Compiler::assignOrFuncProcess(bool *flag, int returnType, std::string *name) {
     symbol *sym = 0;
     if (!this->find(name, &sym, false)) {
         this->errorHandle(IDDEFINEERROR);
@@ -849,11 +898,12 @@ void Compiler::reassignProcess(bool *flag, int returnType, std::string *name) {
     }
     this->getSym();
     if (this->sym == LPARENT) {
-        std::cout << "func statement" << std::endl;
+        this->syntaxOutFile << "func statement" << std::endl;
         if (sym->symbolType != FUNCSYM)
             this->errorHandle(FUNCERROR);
         this->getSym();
-        this->paraListProcess(sym);
+        if(this->sym!=RPARENT)
+            this->paraListProcess(sym);
         //todo
         if (this->sym == RPARENT)
             this->getSym();
@@ -864,7 +914,7 @@ void Compiler::reassignProcess(bool *flag, int returnType, std::string *name) {
         else
             this->errorHandle(SEMICOLONERROR);
     } else if (this->sym == ASSIGN) {
-        std::cout << "assign statement" << std::endl;
+        this->syntaxOutFile << "assign statement" << std::endl;
         if (sym->symbolType != SIMPLESYM && sym->symbolType != PARASYM)
             this->errorHandle(SIMPLEVARERROR);
         this->getSym();
@@ -882,7 +932,7 @@ void Compiler::reassignProcess(bool *flag, int returnType, std::string *name) {
             this->getSym();
         else this->errorHandle(SEMICOLON);
     } else if (this->sym == LBRACK) {
-        std::cout << "assign statement" << std::endl;
+        this->syntaxOutFile << "assign statement" << std::endl;
         if (sym->symbolType != ARRAYSYM)
             this->errorHandle(ARRAYERROR);
         this->getSym();
@@ -931,7 +981,7 @@ void Compiler::statementProcess(bool *flag, int returnType, std::string *funcNam
             this->doWhileProcess(flag, returnType, funcName);
             break;
         case FORSYM:
-            this->forProcess(flag,returnType,funcName);
+            this->forProcess(flag, returnType, funcName);
             break;
         case SCANFSYM:
             this->scanfProcess();
@@ -942,10 +992,6 @@ void Compiler::statementProcess(bool *flag, int returnType, std::string *funcNam
             break;
         case PRINTFSYM:
             this->printfProcess();
-            if (this->sym == SEMICOLON)
-                this->getSym();
-            else
-                this->errorHandle(SEMICOLONERROR);
             break;
         case RETURNSYM:
             this->returnProcess(flag, returnType, funcName);
@@ -963,7 +1009,7 @@ void Compiler::statementProcess(bool *flag, int returnType, std::string *funcNam
                 this->errorHandle(RBRACEERROR);
             break;
         case ID:
-            this->reassignProcess(flag, returnType, name);
+            this->assignOrFuncProcess(flag, returnType, name);
             break;
         case SEMICOLON:
             this->getSym();
@@ -982,7 +1028,6 @@ void Compiler::compoundProcess(bool *flag, int returnType, std::string *name) {
     if (this->isInTarget(DEF, DEF_SIZE))
         this->varState();
     this->statementsProcess(flag, returnType, name);
-
 }
 
 void Compiler::noParaFuncDef(symbol *sym) {
@@ -1003,16 +1048,18 @@ void Compiler::noParaFuncDef(symbol *sym) {
 }
 
 void Compiler::paraFuncDef(symbol *sym) {
-    std::cout << "func def" << std::endl;
+    this->syntaxOutFile << "func def" << std::endl;
     this->getSym();
-    if(this->sym != RPARENT)
+    if (this->sym != RPARENT)
         this->paraProcess(sym);
     if (this->sym == RPARENT)
         this->getSym();
-    else
+    else {
         this->errorHandle(RPARENTERROR);
+        this->skip(STATEMENT,STATEMENT_SIZE);
+    }
     this->noParaFuncDef(sym);
-    std::cout << "func def end" << std::endl;
+    this->syntaxOutFile << "func def end" << std::endl;
 }
 
 void Compiler::voidFuncDef() {
@@ -1027,13 +1074,16 @@ void Compiler::voidFuncDef() {
     this->prepareFunc();
     if (this->sym == LPARENT)
         this->paraFuncDef(sym);
-    else
+    else {
+        this->errorHandle(LPARENTERROR);
+        this->skip(STATEMENT,STATEMENT_SIZE);
         this->noParaFuncDef(sym);
+    }
     this->pop();
 }
 
 void Compiler::mainDef() {
-    std::cout << "main" << std::endl;
+    this->syntaxOutFile << "main" << std::endl;
     std::string *name = new std::string("main");
     if (this->sym == MAINSYM)
         this->getSym();
@@ -1044,8 +1094,9 @@ void Compiler::mainDef() {
     this->push(name, VOIDSYM, FUNCSYM, 0, this->line);
     if (this->sym == LPARENT)
         this->getSym();
-    else
+    else {
         this->errorHandle(LPARENTERROR);
+    }
     if (this->sym == RPARENT)
         this->getSym();
     else
@@ -1067,46 +1118,54 @@ void Compiler::mainDef() {
 }
 
 void Compiler::afterVar() {
-    if (this->sym == VOIDSYM) {
+    if(this->sym == -1)
+        return;
+    else if (this->sym == VOIDSYM) {
         this->getSym();
         if (this->sym == ID) {
             this->voidFuncDef();
             this->afterVar();
-        } else
+        } else{
             this->mainDef();
-    }
-    else{
+            mainFlag = true;
+        }
+    } else if(this->sym == INTSYM || this->sym == CHARSYM){
         std::string *name = 0;
         int returnType = NONE;
         symbol *sym = 0;
-        this->getReturnType(&returnType,&name);
-        if(!name){
+        this->getReturnType(&returnType, &name);
+        if (!name) {
             name = new std::string();
             this->genTemp(name);
         }
-        if(this->find(name,&sym,true))
+        if (this->find(name, &sym, true))
             this->errorHandle(DUPLICATEERROR);
         else
-            sym = this->push(name,returnType,FUNCSYM,0,this->line);
+            sym = this->push(name, returnType, FUNCSYM, 0, this->line);
         this->prepareFunc();
-        if(this->sym == LPARENT)
+        if (this->sym == LPARENT)
             this->paraFuncDef(sym);
         else
-            this->noParaFuncDef(sym);
+            this->errorHandle(LPARENTERROR);
         this->pop();
         this->afterVar();
-    }
+    } else
+        this->errorHandle(UNKNOWNERROR);
 }
 
 void Compiler::afterConst() {
-    if (this->sym == VOIDSYM) {
+    if(this->sym == -1)
+        return;
+    else if (this->sym == VOIDSYM) {
         this->getSym();
         if (this->sym == ID) {
             this->voidFuncDef();
             this->afterVar();
-        } else
+        } else{
             this->mainDef();
-    } else {
+            mainFlag = true;
+        }
+    } else if(this->sym == INTSYM || this->sym == CHARSYM){
         std::string *name = 0;
         int returnType = 0;
         symbol *sym = 0;
@@ -1143,9 +1202,11 @@ void Compiler::afterConst() {
 }
 
 void Compiler::analyze() {
-    std::cout << "syntax analyze start" << std::endl;
+    this->syntaxOutFile << "syntax analyze start" << std::endl;
     this->getSym();
     if (this->sym == CONSTSYM) this->constState();
     this->afterConst();
-    std::cout << "syntax analyze end" << std::endl;
+    if(!this->mainFlag)
+        this->errorHandle(MAINERROR);
+    this->syntaxOutFile << "syntax analyze end" << std::endl;
 }

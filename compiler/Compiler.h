@@ -5,6 +5,7 @@
 
 #include <fstream>
 #include <vector>
+#include <map>
 #include "Error.h"
 #include "SymbolTab.h"
 
@@ -27,138 +28,155 @@ private:
     char ch; //当前字符
     std::string inputLine, token; //输入的语句 当前token
     int sym, line, lineLength, current, count; //当前sym 当前行数 当前行长度 当前字符下标 当前计数
-    void getSym(); //获取sym
-    void freshToken(); //刷新token
-    void getNextLine(); //获取下一行
-    void getChar(); //获取当前字符
-    void skip(); //跳读
-    bool isLetter(); //是否为字母
-    bool isDigit(); //是否为数字
-    void constructToken(); //将字符加入token
-    int isReserve(); //判断是否为保留字
-    bool isLegalString(); //判断是否为合法字符串
-    void output();
 
-    bool isEOF();
+    void getSym(); //获取sym
+
+    void freshToken(); //刷新token
+
+    void getNextLine(); //获取下一行
+
+    void getChar(); //获取当前字符
+
+    void skip(); //跳读
+
+    bool isLetter(); //是否为字母
+
+    bool isDigit(); //是否为数字
+
+    void constructToken(); //将字符加入token
+
+    int isReserve(); //判断是否为保留字
+
+    bool isLegalString(); //判断是否为合法字符串
+
+    void output(); //输出词法分析结果
+
+    bool isEOF(); //文件是否结束
 
     /*----------语法分析----------*/
-    int temp;
-    int label;
+    int temp; //临时变量
+    int label; //标签
+    bool mainFlag;
+    std::ofstream syntaxOutFile;
 
-    void analyze();
+    void analyze(); //语法分析
 
-    void constState();
+    void constState(); //常量声明
 
-    void constDef();
+    void constDef(); //常量定义
 
-    void constructInt(int *value);
+    void constructInt(int *value); //构造数字
 
-    void afterConst();
+    void afterConst(); //处理常量声明之后的语句
 
-    void getReturnType(int *returnType, std::string **name);
+    void getReturnType(int *returnType, std::string **name); //获取返回值类型
 
-    void genTemp(std::string *temp);
+    void genTemp(std::string *temp);  //生成临时变量
 
-    void genLabel(std::string *label);
+    void genLabel(std::string *label); //生成标签
 
-    void varDef(int returnType, std::string *name);
+    void varState(); //变量声明
 
-    void paraFuncDef(symbol *sym);
+    void varDef(int returnType, std::string *name); //变量定义
 
-    void paraProcess(symbol *sym);
+    void paraFuncDef(symbol *sym); //有参函数定义
 
-    void noParaFuncDef(symbol *sym);
+    void paraProcess(symbol *sym); //参数处理
 
-    void compoundProcess(bool *flag, int returnType, std::string *name);
+    void noParaFuncDef(symbol *sym); //无参函数处理
 
-    void varState();
+    void compoundProcess(bool *flag, int returnType, std::string *name); //复合语句处理
 
-    void statementsProcess(bool *flag, int returnType, std::string *name);
+    void statementsProcess(bool *flag, int returnType, std::string *name); //语句列处理
 
-    void statementProcess(bool *flag, int returnType, std::string *funcName);
+    void statementProcess(bool *flag, int returnType, std::string *funcName); //语句处理
 
-    void ifProcess(bool *flag, int returnType, std::string *name);
+    void ifProcess(bool *flag, int returnType, std::string *name); //if语句处理
 
-    void conditionProcess(std::string *label);
+    void conditionProcess(std::string *label); //条件语句处理
 
-    void expressionProcess(int *resultType, std::string *operand);
+    void expressionProcess(int *resultType, std::string *operand); //表达式处理
 
-    void termProcess(int *resultType, std::string *operand);
+    void termProcess(int *resultType, std::string *operand); //项处理
 
-    void factorProcess(int *resultType, std::string *operand);
+    void factorProcess(int *resultType, std::string *operand); //因子处理
 
-    bool isOperandNum(std::string *s);
+    bool isOperandNum(std::string *s); //操作数是否为数字
 
-    void paraListProcess(symbol *sym);
+    void paraListProcess(symbol *sym); //参数列处理
 
-    void int2String(std::string *s, int value);
+    void int2String(std::string *s, int value); //数字转字符串
 
-    void constProcess(int *value, int *returnType);
+    void constProcess(int *value, int *returnType); //常量处理
 
-    bool isOperandReturn(std::string *s);
+    bool isOperandReturn(std::string *s); //操作数是否为返回值
 
-    bool isOperandTemp(std::string *s);
+    bool isOperandTemp(std::string *s); //操作数是否为临时变量
 
-    bool isOperandId(std::string *s);
+    bool isOperandId(std::string *s); //操作数是否为标识符
 
-    void scanfProcess();
+    void scanfProcess(); //读入语句处理
 
-    void printfProcess();
+    void printfProcess(); //输出语句处理
 
-    void returnProcess(bool *flag, int returnType, std::string *name);
+    void returnProcess(bool *flag, int returnType, std::string *name); //返回语句处理
 
-    void doWhileProcess(bool *flag, int returnType, std::string *name);
+    void doWhileProcess(bool *flag, int returnType, std::string *name); //do_while处理
 
-    void forProcess(bool *flag, int returnType, std::string *name);
+    void forProcess(bool *flag, int returnType, std::string *name); //for处理
 
-    void reassignProcess(bool *flag, int returnType, std::string *name);
+    void assignOrFuncProcess(bool *flag, int returnType, std::string *name); //变量赋值处理
 
-    void afterVar();
+    void afterVar(); //处理变量声明之后的语句
 
-    void voidFuncDef();
+    void voidFuncDef(); //无返回值函数定义
 
-    void mainDef();
+    void mainDef(); //main函数定义
+
+    void forAssignProcess(bool *flag,int returnType,std::string *name,bool first);
 
 
     /*----------错误处理----------*/
-    std::vector<error *> errorList;
+    std::vector<error *> errorList; //错误列表
+    std::map<int, std::string> errorMessage; //错误信息图
+    std::ofstream errorOutFile;
 
-    void errorHandle(int id);
+    void errorHandle(int id); //错误处理
 
-    void skip(int id);
+    void skip(int id); //跳过到某个符号
 
-    void skip(const int target[], const int size);
+    void skip(const int target[], const int size); //跳过到某些符号
 
-    bool isInTarget(const int target[], const int size);
+    bool isInTarget(const int target[], const int size); //是否在某些符号中
 
-    void printError();
+    void printError(); //打印错误
 
     /*----------符号表----------*/
-    symbol *symbolTab[MAXSYMBOL];
-    int symbolHash[MAXHASH];
-    int index;
-    int top;
-    int address;
-    int stringNum;
-    std::string *stringTab[MAXSTRINGNUM];
-    int funcSymbolNum[MAXFUNCNUM];
-    int funcMaxAddress[MAXFUNCNUM];
-    int globalAddress;
-    int funcNum;
-    symbol **funcSymbolTab[MAXFUNCSYMBOL];
+    symbol *symbolTab[MAXSYMBOL]; //符号表
+    int symbolHash[MAXHASH]; //符号哈希表
+    int index; //下标
+    int top; //最大下标
+    int address; //地址
+    int stringNum; //字符串数
+    std::string *stringTab[MAXSTRINGNUM]; //字符串表
+    int funcSymbolNum[MAXFUNCNUM]; //函数符号数表
+    int funcMaxAddress[MAXFUNCNUM]; //函数地址表
+    int globalAddress; //全局地址
+    int funcNum; //函数数
+    symbol **funcSymbolTab[MAXFUNCSYMBOL]; //函数符号表
 
-    unsigned int hash(const char *str);
+    unsigned int hash(const char *str); //哈希
 
-    bool isEqual(std::string id1, std::string id2);
+    bool isEqual(std::string id1, std::string id2); //判断是否相同
 
-    bool find(std::string *name, symbol **sym, bool local);
+    bool find(std::string *name, symbol **sym, bool local); //符号是否在表中
 
-    symbol *push(std::string *name, int returnType, int symbolType, int feature, int line);
+    symbol *push(std::string *name, int returnType, int symbolType, int feature, int line); //加入符号表
 
-    void prepareFunc();
+    void prepareFunc(); //函数定义准备
 
-    void pushString(std::string *str, int *index);
+    void pushString(std::string *str, int *index); //加入字符串
 
-    void pop();
+    void pop(); //推出
 
 };

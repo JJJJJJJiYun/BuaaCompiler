@@ -11,6 +11,8 @@ fstream
 -
 vector
 -
+map
+-
 Error.h
 /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Error.h
 SymbolTab.h
@@ -25,24 +27,6 @@ definition.h
 /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/SymbolTab.h
 string
 -
-
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Syntax.cpp
-iostream
--
-stdio.h
--
-stdlib.h
--
-sstream
--
-Syntax.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Syntax.h
-
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Syntax.h
-Compiler.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
-definition.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/definition.h
 
 /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/definition.h
 

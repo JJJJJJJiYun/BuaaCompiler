@@ -1,0 +1,131 @@
+syntax analyze start
+const def
+num const
+num const
+num const
+const def end
+const def
+char const
+char const
+char const
+const def end
+var def
+var
+var
+var
+var def end
+var def
+var
+var
+var def end
+func def
+para process
+para
+para
+para process end
+var def
+var
+var def end
+assign statement
+return
+func def end
+func def
+para process
+para
+para process end
+var def
+var
+var def end
+assign statement
+return
+func def end
+func def
+para process
+para
+para process end
+if statement
+condition statement
+printf
+return
+if statement
+condition statement
+printf
+return
+if statement
+condition statement
+printf
+return
+if statement
+condition statement
+printf
+else statement
+printf
+func def end
+func def
+printf
+printf
+printf
+func def end
+func def
+var def
+var
+var def end
+assign statement
+do statement
+assign statement
+assign statement
+while statement
+condition statement
+for statement
+for assign statement
+condition statement
+for assign statement
+printf
+for statement end
+func def end
+func def
+para process
+para
+para process end
+if statement
+condition statement
+printf
+return
+if statement
+condition statement
+return
+if statement
+condition statement
+return
+return
+func def end
+main
+var def
+var
+var def end
+var def
+var
+var def end
+scanf
+assign statement
+if statement
+condition statement
+assign statement
+printf
+if statement
+condition statement
+assign statement
+printf
+if statement
+condition statement
+func statement
+if statement
+condition statement
+func statement
+if statement
+condition statement
+func statement
+if statement
+condition statement
+printf
+syntax analyze end

@@ -75,6 +75,7 @@
 #define LPARENTERROR 63
 #define STATEMENTERROR 64
 #define VARDEFERROR 65
+#define UNKNOWNERROR 66
 
 //语义、符号表错误
 #define DUPLICATEERROR 70
