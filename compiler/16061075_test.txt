@@ -88,6 +88,6 @@ void main(){
         funcDoWhileAndFor();
     }
     if(variableChar1 == variableCharArray[0]){
-	printf(funcRecursion(variableInt1));
+	    printf(funcRecursion(variableInt1));
     }
 }

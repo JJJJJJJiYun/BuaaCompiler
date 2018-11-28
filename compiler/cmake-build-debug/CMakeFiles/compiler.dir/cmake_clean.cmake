@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/compiler.dir/Syntax.cpp.o"
   "CMakeFiles/compiler.dir/Error.cpp.o"
   "CMakeFiles/compiler.dir/SymbolTab.cpp.o"
+  "CMakeFiles/compiler.dir/MidCode.cpp.o"
+  "CMakeFiles/compiler.dir/MipsCode.cpp.o"
   "compiler.pdb"
   "compiler"
 )

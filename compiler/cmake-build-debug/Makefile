@@ -204,6 +204,60 @@ Lexer.cpp.s:
 	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/Lexer.cpp.s
 .PHONY : Lexer.cpp.s
 
+MidCode.o: MidCode.cpp.o
+
+.PHONY : MidCode.o
+
+# target to build an object file
+MidCode.cpp.o:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/MidCode.cpp.o
+.PHONY : MidCode.cpp.o
+
+MidCode.i: MidCode.cpp.i
+
+.PHONY : MidCode.i
+
+# target to preprocess a source file
+MidCode.cpp.i:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/MidCode.cpp.i
+.PHONY : MidCode.cpp.i
+
+MidCode.s: MidCode.cpp.s
+
+.PHONY : MidCode.s
+
+# target to generate assembly for a file
+MidCode.cpp.s:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/MidCode.cpp.s
+.PHONY : MidCode.cpp.s
+
+MipsCode.o: MipsCode.cpp.o
+
+.PHONY : MipsCode.o
+
+# target to build an object file
+MipsCode.cpp.o:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/MipsCode.cpp.o
+.PHONY : MipsCode.cpp.o
+
+MipsCode.i: MipsCode.cpp.i
+
+.PHONY : MipsCode.i
+
+# target to preprocess a source file
+MipsCode.cpp.i:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/MipsCode.cpp.i
+.PHONY : MipsCode.cpp.i
+
+MipsCode.s: MipsCode.cpp.s
+
+.PHONY : MipsCode.s
+
+# target to generate assembly for a file
+MipsCode.cpp.s:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/MipsCode.cpp.s
+.PHONY : MipsCode.cpp.s
+
 SymbolTab.o: SymbolTab.cpp.o
 
 .PHONY : SymbolTab.o
@@ -303,6 +357,12 @@ help:
 	@echo "... Lexer.o"
 	@echo "... Lexer.i"
 	@echo "... Lexer.s"
+	@echo "... MidCode.o"
+	@echo "... MidCode.i"
+	@echo "... MidCode.s"
+	@echo "... MipsCode.o"
+	@echo "... MipsCode.i"
+	@echo "... MipsCode.s"
 	@echo "... SymbolTab.o"
 	@echo "... SymbolTab.i"
 	@echo "... SymbolTab.s"

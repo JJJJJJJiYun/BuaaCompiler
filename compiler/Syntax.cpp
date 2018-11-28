@@ -28,6 +28,8 @@ const int CONST_SIZE = 5;
 const int RELATION[] = {LESSEQU, GREATEQU, EQUAL, NEQUAL, LESS, GREAT};
 const int RELATION_SIZE = 6;
 
+std::string *ZEROOP = new std::string("0");
+
 
 void Compiler::constructInt(int *value) {
     bool flag = false;
@@ -80,10 +82,9 @@ void Compiler::constDef() {
                         this->errorHandle(INTERROR);
                         this->skip(END, END_SIZE);
                     }
-                }
-                else {
+                } else {
                     this->errorHandle(ASSIGNERROR);
-                    this->skip(END,END_SIZE);
+                    this->skip(END, END_SIZE);
                 }
             } else {
                 this->errorHandle(IDERROR);
@@ -114,10 +115,9 @@ void Compiler::constDef() {
                         this->errorHandle(SINGLECHARERROR);
                         this->skip(END, END_SIZE);
                     }
-                }
-                else {
+                } else {
                     this->errorHandle(SINGLECHARERROR);
-                    this->skip(END,END_SIZE);
+                    this->skip(END, END_SIZE);
                 }
             } else {
                 this->errorHandle(IDERROR);
@@ -312,7 +312,7 @@ void Compiler::paraListProcess(symbol *sym) {
     int index = 0;
     std::string para = std::string();
     this->expressionProcess(&type, &para);
-    //todo
+    this->pushMidCode(PARA, &para, ZEROOP, &para);
     if (sym->feature > index) {
         if (sym->paraList[index] != type)
             this->errorHandle(PARATYPEERROR);
@@ -327,7 +327,7 @@ void Compiler::paraListProcess(symbol *sym) {
         this->getSym();
         std::string para = std::string();
         this->expressionProcess(&type, &para);
-        //todo
+        this->pushMidCode(PARA, &para, ZEROOP, &para);
         if (sym->feature > index) {
             if (sym->paraList[index] != type)
                 this->errorHandle(PARATYPEERROR);
@@ -387,7 +387,7 @@ void Compiler::factorProcess(int *resultType, std::string *operand) {
                     this->errorHandle(ARRAYOUTERROR);
             }
             this->genTemp(operand);
-            //todo push midcode
+            this->pushMidCode(RARRAY, sym->name, &temp, operand);
             if (this->sym == RBRACK)
                 this->getSym();
             else
@@ -402,7 +402,7 @@ void Compiler::factorProcess(int *resultType, std::string *operand) {
             this->getSym();
             this->paraListProcess(sym);
             if (this->sym == RPARENT) {
-                //todo
+                this->pushMidCode(CALL, new std::string(), new std::string(), sym->name);
                 *operand = std::string("#RET");
                 this->getSym();
             } else
@@ -413,7 +413,7 @@ void Compiler::factorProcess(int *resultType, std::string *operand) {
             else if (sym->symbolType == FUNCSYM) {
                 if (sym->feature != 0)
                     this->errorHandle(NOPARAFUNCERROR);
-                //todo
+                this->pushMidCode(CALL, new std::string(), new std::string(), sym->name);
                 *operand = std::string("#RET");
             } else if (sym->symbolType == CONSTSYM) {
                 int value = sym->feature;
@@ -456,7 +456,7 @@ void Compiler::termProcess(int *resultType, std::string *operand) {
     if (this->isOperandReturn(&operand1)) {
         std::string temp = std::string();
         this->genTemp(&temp);
-        //todo
+        this->pushMidCode(ADD, &operand1, ZEROOP, &temp);
         operand1 = temp;
     }
     while (this->sym == MULTI || this->sym == DIVIDE) {
@@ -482,10 +482,10 @@ void Compiler::termProcess(int *resultType, std::string *operand) {
                 if (!this->isOperandTemp(&operand2)) {
                     std::string result = std::string();
                     this->genTemp(&result);
-                    //todo
+                    this->pushMidCode(flag ? MUL : DIV, &operand1, &operand2, &result);
                     operand1 = result;
                 } else {
-                    //todo
+                    this->pushMidCode(flag ? MUL : DIV, &operand1, &operand2, &operand2);
                     operand1 = operand2;
                 }
             }
@@ -496,11 +496,11 @@ void Compiler::termProcess(int *resultType, std::string *operand) {
                     this->errorHandle(ZEROERROR);
             }
             if (this->isOperandTemp(&operand1)) {
-                //todo
+                this->pushMidCode(flag ? MUL : DIV, &operand1, &operand2, &operand1);
             } else {
                 std::string result = std::string();
                 this->genTemp(&result);
-                //todo
+                this->pushMidCode(flag ? MUL : DIV, &operand1, &operand2, &result);
                 operand1 = result;
             }
         }
@@ -532,11 +532,10 @@ void Compiler::expressionProcess(int *resultType, std::string *operand) {
         } else if (this->isOperandId(&operand1)) {
             std::string temp = std::string();
             this->genTemp(&temp);
-            //todo
+            this->pushMidCode(SUB, ZEROOP, &operand1, &temp);
             operand1 = temp;
-        } else {
-            //todo
-        }
+        } else
+            this->pushMidCode(SUB, ZEROOP, &operand1, &operand1);
     }
     *resultType = flag1 ? INTSYM : *resultType;
     while (this->sym == PLUS || this->sym == MINUS) {
@@ -558,20 +557,20 @@ void Compiler::expressionProcess(int *resultType, std::string *operand) {
                 if (this->isOperandId(&operand2)) {
                     std::string temp = std::string();
                     this->genTemp(&temp);
-                    //todo
+                    this->pushMidCode(flag3 ? ADD : SUB, &operand1, &operand2, &temp);
                     operand1 = temp;
                 } else {
-                    //todo
+                    this->pushMidCode(flag3 ? ADD : SUB, &operand1, &operand2, &operand2);
                     operand1 = operand2;
                 }
             }
         } else {
             if (this->isOperandTemp(&operand1)) {
-                //todo
+                this->pushMidCode(flag3 ? ADD : SUB, &operand1, &operand2, &operand1);
             } else {
                 std::string temp = std::string();
                 this->genTemp(&temp);
-                //todo
+                this->pushMidCode(flag3 ? ADD : SUB, &operand1, &operand2, &temp);
                 operand1 = temp;
             }
         }
@@ -597,10 +596,28 @@ void Compiler::conditionProcess(std::string *label) {
         std::string operand2 = std::string();
         this->getSym();
         this->expressionProcess(&returnType2, &operand2);
-        //todo
-    } else {
-        //todo
-    }
+        switch (relation) {
+            case EQUAL:
+                this->pushMidCode(NEQU, &operand1, &operand2, label);
+                break;
+            case NEQUAL:
+                this->pushMidCode(EQU, &operand1, &operand2, label);
+                break;
+            case LESSEQU:
+                this->pushMidCode(GRE, &operand1, &operand2, label);
+                break;
+            case LESS:
+                this->pushMidCode(GREEQU, &operand1, &operand2, label);
+                break;
+            case GREATEQU:
+                this->pushMidCode(LE, &operand1, &operand2, label);
+                break;
+            case GREAT:
+                this->pushMidCode(LEEQU, &operand1, &operand2, label);
+                break;
+        }
+    } else
+        this->pushMidCode(EQU, &operand1, ZEROOP, label);
 }
 
 void Compiler::ifProcess(bool *flag, int returnType, std::string *name) {
@@ -625,7 +642,8 @@ void Compiler::ifProcess(bool *flag, int returnType, std::string *name) {
         this->statementProcess(flag, returnType, name);
     else
         this->errorHandle(STATEMENTERROR);
-    //todo
+    this->pushMidCode(GOTO, new std::string(), new std::string(), endLabel);
+    this->pushMidCode(LABEL, new std::string(), new std::string(), elseLabel);
     if (this->sym == ELSESYM) {
         this->syntaxOutFile << "else statement" << std::endl;
         this->getSym();
@@ -636,6 +654,7 @@ void Compiler::ifProcess(bool *flag, int returnType, std::string *name) {
             this->skip(STATEMENT, STATEMENT_SIZE);
         }
     }
+    this->pushMidCode(LABEL, new std::string(), new std::string(), endLabel);
 }
 
 void Compiler::scanfProcess() {
@@ -656,10 +675,10 @@ void Compiler::scanfProcess() {
             this->errorHandle(SIMPLEVARERROR);
         switch (sym->returnType) {
             case INTSYM:
-                //todo
+                this->pushMidCode(SCAN, sym->name, new std::string("int"), sym->name);
                 break;
             case CHARSYM:
-                //todo
+                this->pushMidCode(SCAN, sym->name, new std::string("char"), sym->name);
                 break;
         }
         this->getSym();
@@ -681,10 +700,10 @@ void Compiler::scanfProcess() {
                 this->errorHandle(SIMPLEVARERROR);
             switch (sym->returnType) {
                 case INTSYM:
-                    //todo
+                    this->pushMidCode(SCAN, sym->name, new std::string("int"), sym->name);
                     break;
                 case CHARSYM:
-                    //todo
+                    this->pushMidCode(SCAN, sym->name, new std::string("char"), sym->name);
                     break;
             }
             this->getSym();
@@ -708,7 +727,7 @@ void Compiler::printfProcess() {
         this->getSym();
     else
         this->errorHandle(LPARENTERROR);
-    if(this->sym == -1 || this->sym == NONE){
+    if (this->sym == -1 || this->sym == NONE) {
         getSym();
         return;
     }
@@ -725,8 +744,8 @@ void Compiler::printfProcess() {
                 this->getSym();
             else
                 this->errorHandle(RPARENTERROR);
-            //todo
-            if(this->sym == SEMICOLON)
+            this->pushMidCode(PRINT, num, ZEROOP, num);
+            if (this->sym == SEMICOLON)
                 this->getSym();
             else
                 this->errorHandle(SEMICOLONERROR);
@@ -736,15 +755,14 @@ void Compiler::printfProcess() {
     int returnType = NONE;
     std::string temp = std::string();
     this->expressionProcess(&returnType, &temp);
-    if (num) {
-        //todo
-    }
+    if (num)
+        this->pushMidCode(PRINT, num, ZEROOP, num);
     switch (returnType) {
         case INTSYM:
-            //todo
+            this->pushMidCode(PRINT, &temp, new std::string("int"), &temp);
             break;
         case CHARSYM:
-            //todo
+            this->pushMidCode(PRINT, &temp, new std::string("char"), &temp);
             break;
     }
     if (this->sym == RPARENT)
@@ -767,9 +785,10 @@ void Compiler::returnProcess(bool *flag, int returnType, std::string *name) {
             this->errorHandle(RETURNEXTRAERROR);
         else {
             if (this->isOperandTemp(&temp)) {
-                //todo
+                midCode *code = this->midCodes[this->midCodeIndex - 1];
+                *code->res = std::string("#RET");
             } else {
-                //todo
+                this->pushMidCode(ADD, &temp, ZEROOP, new std::string("#RET"));
             }
             if (returnType != returnType2)
                 this->errorHandle(RETURNERROR);
@@ -782,7 +801,13 @@ void Compiler::returnProcess(bool *flag, int returnType, std::string *name) {
     }
     if (returnType != VOIDSYM && !(*flag))
         this->errorHandle(RETURNERROR);
-    //todo
+    std::stringstream stringStream = std::stringstream();
+    stringStream << *name << "$end";
+    std::string s = stringStream.str();
+    if (!this->isEqual(std::string("main"), *name))
+        this->pushMidCode(GOTO, new std::string(), new std::string(), &s);
+    else
+        this->pushMidCode(EXIT, new std::string(), new std::string(), new std::string());
 }
 
 void Compiler::doWhileProcess(bool *flag, int returnType, std::string *name) {
@@ -791,7 +816,7 @@ void Compiler::doWhileProcess(bool *flag, int returnType, std::string *name) {
     std::string *endLabel = new std::string();
     this->genLabel(doLabel);
     this->genLabel(endLabel);
-    //todo
+    this->pushMidCode(LABEL,new std::string(),new std::string(),doLabel);
     this->getSym();
     if (this->isInTarget(STATEMENT, STATEMENT_SIZE))
         this->statementProcess(flag, returnType, name);
@@ -811,18 +836,20 @@ void Compiler::doWhileProcess(bool *flag, int returnType, std::string *name) {
             this->errorHandle(RBRACEERROR);
             this->skip(STATEMENT, STATEMENT_SIZE);
         }
-        //todo
     } else
         this->errorHandle(NOWHILEERROR);
+    this->pushMidCode(GOTO,new std::string(),new std::string(),doLabel);
+    this->pushMidCode(LABEL,new std::string(),new std::string(),endLabel);
 }
 
 void Compiler::forProcess(bool *flag, int returnType, std::string *name) {
     this->syntaxOutFile << "for statement" << std::endl;
-    std::string *doLabel = new std::string();
+    std::string *forLabel = new std::string();
     std::string *endLabel = new std::string();
-    this->genLabel(doLabel);
+    this->genLabel(forLabel);
     this->genLabel(endLabel);
     this->getSym();
+    int tempOp;
     if (this->sym == LPARENT) {
         this->getSym();
         if (this->sym == ID) {
@@ -831,6 +858,7 @@ void Compiler::forProcess(bool *flag, int returnType, std::string *name) {
             this->errorHandle(IDERROR);
             this->skip(SEMICOLON);
         }
+        this->pushMidCode(LABEL,new std::string(),new std::string(),forLabel);
         this->conditionProcess(endLabel);
         if (this->sym == SEMICOLON)
             this->getSym();
@@ -838,6 +866,9 @@ void Compiler::forProcess(bool *flag, int returnType, std::string *name) {
             this->errorHandle(SEMICOLONERROR);
         if (this->sym == ID) {
             this->forAssignProcess(flag, returnType, new std::string(this->token), false);
+            midCode *code = this->midCodes[this->midCodeIndex-1];
+            tempOp = code->op;
+            code->op = NONE;
         } else {
             this->errorHandle(IDERROR);
             this->skip(SEMICOLON);
@@ -845,6 +876,9 @@ void Compiler::forProcess(bool *flag, int returnType, std::string *name) {
         this->statementProcess(flag, returnType, name);
     } else
         this->errorHandle(LPARENTERROR);
+    this->switchMidCode(tempOp);
+    this->pushMidCode(GOTO,new std::string(),new std::string(),forLabel);
+    this->pushMidCode(LABEL,new std::string(),new std::string(),endLabel);
     this->syntaxOutFile << "for statement end" << std::endl;
 }
 
@@ -867,21 +901,21 @@ void Compiler::forAssignProcess(bool *flag, int returnType, std::string *name, b
         if (sym->returnType == CHARSYM && returnType2 == INTSYM)
             this->errorHandle(ILLEGALASSERROR);
         if (this->isOperandTemp(&operand)) {
-            //todo
+            midCode *code = this->midCodes[this->midCodeIndex - 1];
+            *code->res = *sym->name;
         } else {
-            //todo
+            this->pushMidCode(ADD, &operand, ZEROOP, sym->name);
         }
-        if(first) {
+        if (first) {
             if (this->sym == SEMICOLON)
                 this->getSym();
             else this->errorHandle(SEMICOLON);
-        }
-        else{
-            if(this->sym == RPARENT)
+        } else {
+            if (this->sym == RPARENT)
                 this->getSym();
             else {
                 this->errorHandle(RPARENTERROR);
-                this->skip(STATEMENT,STATEMENT_SIZE);
+                this->skip(STATEMENT, STATEMENT_SIZE);
             }
         }
     } else
@@ -902,9 +936,9 @@ void Compiler::assignOrFuncProcess(bool *flag, int returnType, std::string *name
         if (sym->symbolType != FUNCSYM)
             this->errorHandle(FUNCERROR);
         this->getSym();
-        if(this->sym!=RPARENT)
+        if (this->sym != RPARENT)
             this->paraListProcess(sym);
-        //todo
+        pushMidCode(CALL, new std::string(), new std::string(), sym->name);
         if (this->sym == RPARENT)
             this->getSym();
         else
@@ -924,9 +958,10 @@ void Compiler::assignOrFuncProcess(bool *flag, int returnType, std::string *name
         if (sym->returnType == CHARSYM && returnType2 == INTSYM)
             this->errorHandle(ILLEGALASSERROR);
         if (this->isOperandTemp(&operand)) {
-            //todo
+            midCode *code = this->midCodes[this->midCodeIndex - 1];
+            *code->res = *sym->name;
         } else {
-            //todo
+            this->pushMidCode(ADD, &operand, ZEROOP, sym->name);
         }
         if (this->sym == SEMICOLON)
             this->getSym();
@@ -957,7 +992,7 @@ void Compiler::assignOrFuncProcess(bool *flag, int returnType, std::string *name
         this->expressionProcess(&returnType3, &operand2);
         if (sym->returnType == CHARSYM && returnType3 == INTSYM)
             this->errorHandle(ILLEGALASSERROR);
-        //todo
+        this->pushMidCode(LARRAY, &operand2, &operand, name);
         if (this->sym == SEMICOLON)
             this->getSym();
         else
@@ -965,7 +1000,7 @@ void Compiler::assignOrFuncProcess(bool *flag, int returnType, std::string *name
     } else if (this->sym == SEMICOLON) {
         if (sym->symbolType != FUNCSYM || sym->feature != 0)
             this->errorHandle(NOPARAFUNCERROR);
-        //todo
+        this->pushMidCode(CALL, new std::string(), new std::string(), name);
         this->getSym();
     } else
         this->errorHandle(SEMICOLONERROR);
@@ -1036,7 +1071,7 @@ void Compiler::noParaFuncDef(symbol *sym) {
     else
         this->errorHandle(LBRACEERROR);
     bool flag = false;
-    //todo pushmidcode
+    this->pushMidCode(FUNC, new std::string(), new std::string(), sym->name);
     this->compoundProcess(&flag, sym->returnType, sym->name);
     if (this->sym == RBRACE) {
         this->getSym();
@@ -1044,7 +1079,11 @@ void Compiler::noParaFuncDef(symbol *sym) {
             this->errorHandle(RETURNMISSERROR);
     } else
         this->errorHandle(RBRACEERROR);
-    //todo
+    std::stringstream stringStream = std::stringstream();
+    stringStream << *sym->name << "$end";
+    std::string s = stringStream.str();
+    this->pushMidCode(LABEL, new std::string(), new std::string(), &s);
+    this->pushMidCode(RET, new std::string(), new std::string(), sym->name);
 }
 
 void Compiler::paraFuncDef(symbol *sym) {
@@ -1056,7 +1095,7 @@ void Compiler::paraFuncDef(symbol *sym) {
         this->getSym();
     else {
         this->errorHandle(RPARENTERROR);
-        this->skip(STATEMENT,STATEMENT_SIZE);
+        this->skip(STATEMENT, STATEMENT_SIZE);
     }
     this->noParaFuncDef(sym);
     this->syntaxOutFile << "func def end" << std::endl;
@@ -1076,7 +1115,7 @@ void Compiler::voidFuncDef() {
         this->paraFuncDef(sym);
     else {
         this->errorHandle(LPARENTERROR);
-        this->skip(STATEMENT,STATEMENT_SIZE);
+        this->skip(STATEMENT, STATEMENT_SIZE);
         this->noParaFuncDef(sym);
     }
     this->pop();
@@ -1107,29 +1146,29 @@ void Compiler::mainDef() {
     } else
         this->errorHandle(LBRACEERROR);
     bool flag = false;
-    //todo
+    this->pushMidCode(FUNC,new std::string(),new std::string(),new std::string("main"));
     this->compoundProcess(&flag, VOIDSYM, name);
     if (this->sym == RBRACE) {
         this->pop();
-        //todo
+        this->pushMidCode(EXIT, new std::string(), new std::string(), new std::string());
         return;
     } else
         this->errorHandle(RBRACEERROR);
 }
 
 void Compiler::afterVar() {
-    if(this->sym == -1)
+    if (this->sym == -1)
         return;
     else if (this->sym == VOIDSYM) {
         this->getSym();
         if (this->sym == ID) {
             this->voidFuncDef();
             this->afterVar();
-        } else{
+        } else {
             this->mainDef();
             mainFlag = true;
         }
-    } else if(this->sym == INTSYM || this->sym == CHARSYM){
+    } else if (this->sym == INTSYM || this->sym == CHARSYM) {
         std::string *name = 0;
         int returnType = NONE;
         symbol *sym = 0;
@@ -1154,18 +1193,18 @@ void Compiler::afterVar() {
 }
 
 void Compiler::afterConst() {
-    if(this->sym == -1)
+    if (this->sym == -1)
         return;
     else if (this->sym == VOIDSYM) {
         this->getSym();
         if (this->sym == ID) {
             this->voidFuncDef();
             this->afterVar();
-        } else{
+        } else {
             this->mainDef();
             mainFlag = true;
         }
-    } else if(this->sym == INTSYM || this->sym == CHARSYM){
+    } else if (this->sym == INTSYM || this->sym == CHARSYM) {
         std::string *name = 0;
         int returnType = 0;
         symbol *sym = 0;
@@ -1206,7 +1245,7 @@ void Compiler::analyze() {
     this->getSym();
     if (this->sym == CONSTSYM) this->constState();
     this->afterConst();
-    if(!this->mainFlag)
+    if (!this->mainFlag)
         this->errorHandle(MAINERROR);
     this->syntaxOutFile << "syntax analyze end" << std::endl;
 }

@@ -3,6 +3,8 @@
 //
 
 #pragma once
+
+#include <string>
 //default
 #define NONE      0  // default
 
@@ -101,3 +103,25 @@
 #define ARRAYSYM 91
 #define FUNCSYM 92
 #define PARASYM 93
+
+#define PARA 100
+#define CALL 101
+#define RET 102
+#define LARRAY 103
+#define RARRAY 104
+#define ADD 105
+#define SUB 106
+#define MUL 107
+#define DIV 108
+#define EQU 109
+#define NEQU 110
+#define GRE 111
+#define GREEQU 112
+#define LE 113
+#define LEEQU 114
+#define LABEL 115
+#define GOTO 116
+#define FUNC 117
+#define SCAN 118
+#define PRINT 119
+#define EXIT 120

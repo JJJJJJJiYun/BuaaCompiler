@@ -4,30 +4,47 @@
 CMakeFiles/compiler.dir/Compiler.cpp.o: ../Compiler.cpp
 CMakeFiles/compiler.dir/Compiler.cpp.o: ../Compiler.h
 CMakeFiles/compiler.dir/Compiler.cpp.o: ../Error.h
+CMakeFiles/compiler.dir/Compiler.cpp.o: ../MidCode.h
 CMakeFiles/compiler.dir/Compiler.cpp.o: ../SymbolTab.h
-CMakeFiles/compiler.dir/Compiler.cpp.o: ../definition.h
 
 CMakeFiles/compiler.dir/Error.cpp.o: ../Compiler.h
 CMakeFiles/compiler.dir/Error.cpp.o: ../Error.cpp
 CMakeFiles/compiler.dir/Error.cpp.o: ../Error.h
+CMakeFiles/compiler.dir/Error.cpp.o: ../MidCode.h
 CMakeFiles/compiler.dir/Error.cpp.o: ../SymbolTab.h
-CMakeFiles/compiler.dir/Error.cpp.o: ../definition.h
 
 CMakeFiles/compiler.dir/Lexer.cpp.o: ../Compiler.h
 CMakeFiles/compiler.dir/Lexer.cpp.o: ../Error.h
 CMakeFiles/compiler.dir/Lexer.cpp.o: ../Lexer.cpp
 CMakeFiles/compiler.dir/Lexer.cpp.o: ../Lexer.h
+CMakeFiles/compiler.dir/Lexer.cpp.o: ../MidCode.h
 CMakeFiles/compiler.dir/Lexer.cpp.o: ../SymbolTab.h
 CMakeFiles/compiler.dir/Lexer.cpp.o: ../definition.h
 
+CMakeFiles/compiler.dir/MidCode.cpp.o: ../Compiler.h
+CMakeFiles/compiler.dir/MidCode.cpp.o: ../Error.h
+CMakeFiles/compiler.dir/MidCode.cpp.o: ../MidCode.cpp
+CMakeFiles/compiler.dir/MidCode.cpp.o: ../MidCode.h
+CMakeFiles/compiler.dir/MidCode.cpp.o: ../SymbolTab.h
+
+CMakeFiles/compiler.dir/MipsCode.cpp.o: ../Compiler.h
+CMakeFiles/compiler.dir/MipsCode.cpp.o: ../Error.h
+CMakeFiles/compiler.dir/MipsCode.cpp.o: ../MidCode.h
+CMakeFiles/compiler.dir/MipsCode.cpp.o: ../MipsCode.cpp
+CMakeFiles/compiler.dir/MipsCode.cpp.o: ../MipsCode.h
+CMakeFiles/compiler.dir/MipsCode.cpp.o: ../SymbolTab.h
+CMakeFiles/compiler.dir/MipsCode.cpp.o: ../definition.h
+
 CMakeFiles/compiler.dir/SymbolTab.cpp.o: ../Compiler.h
 CMakeFiles/compiler.dir/SymbolTab.cpp.o: ../Error.h
+CMakeFiles/compiler.dir/SymbolTab.cpp.o: ../MidCode.h
 CMakeFiles/compiler.dir/SymbolTab.cpp.o: ../SymbolTab.cpp
 CMakeFiles/compiler.dir/SymbolTab.cpp.o: ../SymbolTab.h
 CMakeFiles/compiler.dir/SymbolTab.cpp.o: ../definition.h
 
 CMakeFiles/compiler.dir/Syntax.cpp.o: ../Compiler.h
 CMakeFiles/compiler.dir/Syntax.cpp.o: ../Error.h
+CMakeFiles/compiler.dir/Syntax.cpp.o: ../MidCode.h
 CMakeFiles/compiler.dir/Syntax.cpp.o: ../SymbolTab.h
 CMakeFiles/compiler.dir/Syntax.cpp.o: ../Syntax.cpp
 CMakeFiles/compiler.dir/Syntax.cpp.o: ../Syntax.h
@@ -35,7 +52,7 @@ CMakeFiles/compiler.dir/Syntax.cpp.o: ../definition.h
 
 CMakeFiles/compiler.dir/main.cpp.o: ../Compiler.h
 CMakeFiles/compiler.dir/main.cpp.o: ../Error.h
+CMakeFiles/compiler.dir/main.cpp.o: ../MidCode.h
 CMakeFiles/compiler.dir/main.cpp.o: ../SymbolTab.h
-CMakeFiles/compiler.dir/main.cpp.o: ../definition.h
 CMakeFiles/compiler.dir/main.cpp.o: ../main.cpp
 

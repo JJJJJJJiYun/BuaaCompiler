@@ -100,6 +100,18 @@
 		<Unit filename="/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Lexer.h">
 			<Option target="compiler"/>
 		</Unit>
+		<Unit filename="/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MidCode.cpp">
+			<Option target="compiler"/>
+		</Unit>
+		<Unit filename="/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MidCode.h">
+			<Option target="compiler"/>
+		</Unit>
+		<Unit filename="/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MipsCode.cpp">
+			<Option target="compiler"/>
+		</Unit>
+		<Unit filename="/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MipsCode.h">
+			<Option target="compiler"/>
+		</Unit>
 		<Unit filename="/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/SymbolTab.cpp">
 			<Option target="compiler"/>
 		</Unit>

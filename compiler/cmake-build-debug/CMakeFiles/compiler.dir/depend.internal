@@ -5,30 +5,47 @@ CMakeFiles/compiler.dir/Compiler.cpp.o
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.cpp
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Error.h
+ /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MidCode.h
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/SymbolTab.h
- /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/definition.h
 CMakeFiles/compiler.dir/Error.cpp.o
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Error.cpp
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Error.h
+ /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MidCode.h
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/SymbolTab.h
- /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/definition.h
 CMakeFiles/compiler.dir/Lexer.cpp.o
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Error.h
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Lexer.cpp
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Lexer.h
+ /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MidCode.h
+ /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/SymbolTab.h
+ /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/definition.h
+CMakeFiles/compiler.dir/MidCode.cpp.o
+ /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
+ /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Error.h
+ /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MidCode.cpp
+ /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MidCode.h
+ /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/SymbolTab.h
+CMakeFiles/compiler.dir/MipsCode.cpp.o
+ /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
+ /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Error.h
+ /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MidCode.h
+ /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MipsCode.cpp
+ /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MipsCode.h
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/SymbolTab.h
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/definition.h
 CMakeFiles/compiler.dir/SymbolTab.cpp.o
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Error.h
+ /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MidCode.h
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/SymbolTab.cpp
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/SymbolTab.h
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/definition.h
 CMakeFiles/compiler.dir/Syntax.cpp.o
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Error.h
+ /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MidCode.h
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/SymbolTab.h
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Syntax.cpp
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Syntax.h
@@ -36,6 +53,6 @@ CMakeFiles/compiler.dir/Syntax.cpp.o
 CMakeFiles/compiler.dir/main.cpp.o
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Error.h
+ /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MidCode.h
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/SymbolTab.h
- /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/definition.h
  /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/main.cpp

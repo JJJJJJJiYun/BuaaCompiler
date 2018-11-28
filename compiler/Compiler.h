@@ -8,12 +8,16 @@
 #include <map>
 #include "Error.h"
 #include "SymbolTab.h"
+#include "MidCode.h"
 
 #define MAXSYMBOL 5000
 #define MAXHASH 4096
 #define MAXSTRINGNUM 1000
 #define MAXFUNCNUM 500
 #define MAXFUNCSYMBOL 1000
+#define MAXMIDCODE 5000
+#define MAXMIPSCODE 10000
+#define MAXREG 14
 
 
 class Compiler {
@@ -178,5 +182,86 @@ private:
     void pushString(std::string *str, int *index); //加入字符串
 
     void pop(); //推出
+
+    /*----------中间代码----------*/
+    midCode* midCodes[MAXMIDCODE];
+    int midCodeIndex;
+    std::ofstream midOutFile;
+    std::map<int, std::string> midMessage;
+
+    void pushMidCode(int op, std::string *op1, std::string *op2, std::string *res);
+
+    void switchMidCode(int op);
+
+    void outputMid();
+
+    /*----------目标代码----------*/
+    std::string *mipsCodes[MAXMIPSCODE];
+    std::ofstream mipsOutFile;
+    int mipsIndex;
+    int currentRef;
+    std::string *regs[MAXREG];
+
+    void generate();
+
+    void initAscii();
+
+    void generateCode(std::string *code);
+
+    void pushCode(std::string *code);
+
+    void outputMips();
+
+    void generateCode(std::string *code, std::string *rd, std::string *rs, std::string *rt);
+
+    void generateCode(std::string *code, std::string *rd, std::string *rt, int immediate);
+
+    void generateCode(std::string *code, std::string *target);
+
+    void generateCode(std::string *code, std::string *rs, int num, std::string *rt);
+
+    void generateCode(std::string *code, std::string *rs, std::string *label);
+
+    void generateCode(std::string *code, std::string *rs, int num);
+
+    void gotoProcess(std::string *label);
+
+    void funcProcess(std::string *name);
+
+    void branchProcess(midCode *code);
+
+    void paraProcess(std::string *para);
+
+    void rArrayProcess(midCode *code);
+
+    void lArrayProcess(midCode *code);
+
+    void callProcess(std::string *name);
+
+    void returnProcess(std::string *name);
+
+    void multiProcess(midCode *code);
+
+    void addProcess(midCode *code);
+
+    void subProcess(midCode *code);
+
+    void scanfProcess(midCode *code);
+
+    void printfProcess(midCode *code);
+
+    void exitProcess();
+
+    void genMipsLabel(std::string *label);
+
+    void str2Lower(std::string *oldStr, std::string *newStr);
+
+    void getUseReg(std::string *rs, std::string *reg);
+
+    void getResultReg(std::string *rd,std::string *reg);
+
+    void findSym(std::string *name,symbol **resultSym, bool *flag);
+
+    void writeBack(std::string *rd,std::string *reg);
 
 };

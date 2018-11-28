@@ -18,6 +18,8 @@ Compiler::Compiler(char *path) {
     /*----------语法分析初始化----------*/
     this->mainFlag = false;
     this->syntaxOutFile = std::ofstream("syntax.txt", std::ios::out);
+    this->label = 0;
+    this->temp = 0;
 
     /*----------错误处理初始化----------*/
     this->errorOutFile = std::ofstream("error.txt", std::ios::out);
@@ -70,10 +72,48 @@ Compiler::Compiler(char *path) {
     this->top = 0;
     this->address = 0;
     this->funcNum = 0;
+    this->stringNum = 0;
     for (int i = 0; i < MAXHASH; i++) this->symbolHash[i] = -1;
+
+    /*--------中间代码初始化----------*/
+    this->midCodeIndex = 0;
+    this->midOutFile = std::ofstream("mid.txt",std::ios::out);
+    this->midMessage[100] = "PARA";
+    this->midMessage[101] = "CALL";
+    this->midMessage[102] = "RET";
+    this->midMessage[103] = "LARRAY";
+    this->midMessage[104] = "RARRAY";
+    this->midMessage[105] = "ADD";
+    this->midMessage[106] = "SUB";
+    this->midMessage[107] = "MUL";
+    this->midMessage[108] = "DIV";
+    this->midMessage[109] = "EQU";
+    this->midMessage[110] = "NEQU";
+    this->midMessage[111] = "GRE";
+    this->midMessage[112] = "GREEQU";
+    this->midMessage[113] = "LE";
+    this->midMessage[114] = "LEEQU";
+    this->midMessage[115] = "LABEL";
+    this->midMessage[116] = "GOTO";
+    this->midMessage[117] = "FUNC";
+    this->midMessage[118] = "SCAN";
+    this->midMessage[119] = "PRINT";
+    this->midMessage[120] = "EXIT";
+
+    /*----------目标代码初始化----------*/
+    this->mipsOutFile = std::ofstream("mips.txt",std::ios::out);
+    this->mipsIndex = 0;
+    this->currentRef = -1;
+    for(int i=0;i<MAXREG;i++)
+        this->regs[i] = 0;
 }
 
 void Compiler::begin() {
     this->analyze();
-    this->printError();
+    if(this->errorList.size()>0) {
+        this->printError();
+        return;
+    }
+    this->outputMid();
+    this->generate();
 }

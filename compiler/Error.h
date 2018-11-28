@@ -6,7 +6,6 @@
 
 
 #include <string>
-#include "definition.h"
 
 typedef struct {
     int id;

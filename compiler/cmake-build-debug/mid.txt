@@ -1,0 +1,146 @@
+FUNC   funcReturnInt
+SUB 0 a $t0
+ADD $t0 b $t0
+ADD $t0 2 c
+ADD c 0 #RET
+GOTO   funcReturnInt$end
+LABEL   funcReturnInt$end
+RET   funcReturnInt
+FUNC   funcReturnChar
+ADD c 0 d
+ADD d 0 #RET
+GOTO   funcReturnChar$end
+LABEL   funcReturnChar$end
+RET   funcReturnChar
+FUNC   funcRelation
+GREEQU n 7 $label0
+PRINT 0 0 0
+GOTO   funcRelation$end
+GOTO   $label1
+LABEL   $label0
+LABEL   $label1
+GRE n 7 $label2
+PRINT 1 0 1
+GOTO   funcRelation$end
+GOTO   $label3
+LABEL   $label2
+LABEL   $label3
+NEQU n 17 $label4
+PRINT 2 0 2
+GOTO   funcRelation$end
+GOTO   $label5
+LABEL   $label4
+LABEL   $label5
+LE n 77 $label6
+PRINT 3 0 3
+GOTO   $label7
+LABEL   $label6
+PRINT 4 0 4
+LABEL   $label7
+LABEL   funcRelation$end
+RET   funcRelation
+FUNC   funcPrint
+PRINT 5 0 5
+PRINT -10 int -10
+PRINT 6 0 6
+PRINT 97 char 97
+LABEL   funcPrint$end
+RET   funcPrint
+FUNC   funcDoWhileAndFor
+ADD 0 0 i
+LABEL   $label8
+LARRAY i i variableIntArray
+ADD i 1 i
+GREEQU i 10 $label9
+GOTO   $label8
+LABEL   $label9
+ADD 0 0 i
+LABEL   $label10
+GREEQU i 10 $label11
+RARRAY variableIntArray i $t3
+PRINT $t3 int $t3
+ADD i 1 i
+GOTO   $label10
+LABEL   $label11
+LABEL   funcDoWhileAndFor$end
+RET   funcDoWhileAndFor
+FUNC   funcRecursion
+GRE n 0 $label12
+PRINT 7 0 7
+ADD -1 0 #RET
+GOTO   funcRecursion$end
+GOTO   $label13
+LABEL   $label12
+LABEL   $label13
+NEQU n 1 $label14
+ADD 1 0 #RET
+GOTO   funcRecursion$end
+GOTO   $label15
+LABEL   $label14
+LABEL   $label15
+NEQU n 2 $label16
+ADD 1 0 #RET
+GOTO   funcRecursion$end
+GOTO   $label17
+LABEL   $label16
+LABEL   $label17
+SUB n 1 $t4
+PARA $t4 0 $t4
+CALL   funcRecursion
+ADD #RET 0 $t5
+SUB n 2 $t6
+PARA $t6 0 $t6
+CALL   funcRecursion
+ADD #RET 0 $t7
+ADD $t5 $t7 #RET
+GOTO   funcRecursion$end
+LABEL   funcRecursion$end
+RET   funcRecursion
+FUNC   main
+SCAN variableInt1 int variableInt1
+SCAN variableInt2 int variableInt2
+SCAN variableChar1 char variableChar1
+LARRAY 122 0 variableCharArray
+NEQU variableInt1 variableInt2 $label18
+PARA variableInt1 0 variableInt1
+PARA variableInt1 0 variableInt1
+CALL   funcReturnInt
+ADD #RET 0 tempInt
+PRINT tempInt int tempInt
+GOTO   $label19
+LABEL   $label18
+LABEL   $label19
+LEEQU variableInt1 variableInt2 $label20
+PARA variableChar1 0 variableChar1
+CALL   funcReturnChar
+ADD #RET 0 tempChar
+PRINT tempChar char tempChar
+GOTO   $label21
+LABEL   $label20
+LABEL   $label21
+NEQU variableChar1 97 $label22
+PARA variableInt1 0 variableInt1
+CALL   funcRelation
+GOTO   $label23
+LABEL   $label22
+LABEL   $label23
+NEQU variableChar1 45 $label24
+CALL   funcPrint
+GOTO   $label25
+LABEL   $label24
+LABEL   $label25
+NEQU variableChar1 47 $label26
+CALL   funcDoWhileAndFor
+GOTO   $label27
+LABEL   $label26
+LABEL   $label27
+RARRAY variableCharArray 0 $t10
+NEQU variableChar1 $t10 $label28
+PARA variableInt1 0 variableInt1
+CALL   funcRecursion
+ADD #RET 0 $t11
+PRINT $t11 int $t11
+GOTO   $label29
+LABEL   $label28
+LABEL   $label29
+EXIT   
