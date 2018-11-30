@@ -6,12 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.cpp
-iostream
--
-Compiler.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
-
 /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
 fstream
 -
@@ -26,37 +20,9 @@ SymbolTab.h
 MidCode.h
 /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MidCode.h
 
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Error.cpp
-iostream
--
-Error.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Error.h
-Compiler.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
-
 /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Error.h
 string
 -
-
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Lexer.cpp
-Compiler.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
-Lexer.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Lexer.h
-iostream
--
-
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Lexer.h
-definition.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/definition.h
-Error.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Error.h
-
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MidCode.cpp
-MidCode.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MidCode.h
-Compiler.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
 
 /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MidCode.h
 string
@@ -74,43 +40,11 @@ definition.h
 
 /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MipsCode.h
 
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/SymbolTab.cpp
-SymbolTab.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/SymbolTab.h
-Compiler.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
-definition.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/definition.h
-
 /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/SymbolTab.h
 string
 -
 
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Syntax.cpp
-iostream
--
-stdio.h
--
-stdlib.h
--
-sstream
--
-Syntax.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Syntax.h
-
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Syntax.h
-Compiler.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
-definition.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/definition.h
-
 /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/definition.h
 string
 -
-
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/main.cpp
-iostream
--
-Compiler.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
 

@@ -70,6 +70,10 @@ void Compiler::initAscii() {
         std::string s = stringStream.str();
         this->generateCode(&s);
     }
+    std::stringstream stringStream = std::stringstream();
+    stringStream << "break" << ":" << " .asciiz " << "\"\\n\"";
+    std::string s = stringStream.str();
+    this->generateCode(&s);
 }
 
 void Compiler::outputMips() {
@@ -501,12 +505,18 @@ void Compiler::printfProcess(midCode *code) {
         std::string *s = new std::string(stringStream.str());
         this->generateCode(la,a0,s);
         this->generateCode(syscall);
+        this->generateCode(li,v0,4);
+        this->generateCode(la,a0,new std::string("break"));
+        this->generateCode(syscall);
     } else{
         this->generateCode(li,v0,(*code->op2)[0] == 'i'?1:11);
         std::string *resReg = new std::string();
         *resReg = *t7;
         this->getUseReg(code->res,resReg);
         this->generateCode(add, a0, resReg,r0);
+        this->generateCode(syscall);
+        this->generateCode(li,v0,4);
+        this->generateCode(la,a0,new std::string("break"));
         this->generateCode(syscall);
         delete resReg;
     }

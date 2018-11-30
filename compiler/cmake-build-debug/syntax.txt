@@ -1,11 +1,15 @@
 syntax analyze start
 const def
 num const
+const def end
+const def
 num const
 num const
 const def end
 const def
 char const
+const def end
+const def
 char const
 char const
 const def end
@@ -13,119 +17,99 @@ var def
 var
 var
 var
-var def end
-var def
-var
 var
 var def end
 func def
 para process
 para
-para
 para process end
-var def
-var
-var def end
-assign statement
+const def
+num const
+const def end
+if statement
+condition statement
+return
+else statement
+return
+func def end
+func def
 return
 func def end
 func def
 para process
 para
+para
+para
+para
+para
+para
 para process end
+printf
+return
+func def end
+main
+const def
+num const
+num const
+num const
+num const
+const def end
 var def
 var
 var def end
+var def
+var
+var
+var def end
+var def
+var
+var
+var def end
 assign statement
-return
-func def end
-func def
-para process
-para
-para process end
+assign statement
+assign statement
+printf
+assign statement
+printf
+assign statement
+assign statement
+printf
+assign statement
+scanf
 if statement
 condition statement
 printf
-return
+if statement
+condition statement
+assign statement
+printf
+assign statement
 if statement
 condition statement
 printf
-return
+if statement
+condition statement
+assign statement
+printf
 if statement
 condition statement
 printf
-return
 if statement
 condition statement
+assign statement
 printf
 else statement
-printf
-func def end
-func def
-printf
-printf
-printf
-func def end
-func def
-var def
-var
-var def end
 assign statement
-do statement
-assign statement
-assign statement
-while statement
-condition statement
+printf
 for statement
 for assign statement
 condition statement
 for assign statement
-printf
+assign statement
 for statement end
-func def end
-func def
-para process
-para
-para process end
-if statement
-condition statement
-printf
-return
-if statement
-condition statement
-return
-if statement
-condition statement
-return
-return
-func def end
-main
-var def
-var
-var def end
-var def
-var
-var def end
-scanf
+do statement
 assign statement
-if statement
-condition statement
-assign statement
-printf
-if statement
-condition statement
-assign statement
-printf
-if statement
-condition statement
-func statement
-if statement
-condition statement
-func statement
-if statement
-condition statement
-func statement
-if statement
+while statement
 condition statement
 printf
 syntax analyze end

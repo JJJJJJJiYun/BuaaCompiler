@@ -353,7 +353,7 @@ void Compiler::int2String(std::string *s, int value) {
 
 void Compiler::constProcess(int *value, int *returnType) {
     if (this->sym == CHAR) {
-        *returnType = CHAR;
+        *returnType = CHARSYM;
         *value = this->token[0];
         this->getSym();
     } else {
@@ -372,6 +372,7 @@ void Compiler::factorProcess(int *resultType, std::string *operand) {
         }
         *resultType = sym->returnType;
         this->getSym();
+        //数组
         if (this->sym == LBRACK) {
             if (sym->symbolType != ARRAYSYM)
                 this->errorHandle(ARRAYERROR);
@@ -392,7 +393,9 @@ void Compiler::factorProcess(int *resultType, std::string *operand) {
                 this->getSym();
             else
                 this->errorHandle(RBRACKERROR);
-        } else if (this->sym == LPARENT) {
+        }
+        //函数调用
+        else if (this->sym == LPARENT) {
             if (sym->symbolType != FUNCSYM) {
                 this->errorHandle(FUNCERROR);
                 return;;
@@ -400,14 +403,17 @@ void Compiler::factorProcess(int *resultType, std::string *operand) {
             if (sym->returnType == VOIDSYM)
                 this->errorHandle(RETURNFUNCERROR);
             this->getSym();
-            this->paraListProcess(sym);
+            if(this->sym != RPARENT)
+                this->paraListProcess(sym);
             if (this->sym == RPARENT) {
                 this->pushMidCode(CALL, new std::string(), new std::string(), sym->name);
                 *operand = std::string("#RET");
                 this->getSym();
             } else
                 this->errorHandle(RPARENTERROR);
-        } else {
+        }
+        //变量
+        else {
             if (sym->symbolType == SIMPLESYM || sym->symbolType == PARASYM)
                 *operand = *sym->name;
             else if (sym->symbolType == FUNCSYM) {

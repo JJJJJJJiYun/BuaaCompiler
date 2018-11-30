@@ -1,148 +1,121 @@
-const int max_heap_size = 100;
-const char character = 'c';
+const int a=100,MAX=10;
+const char ch='M';
+int x,y,z,t,dATa[10],i,m,n,_abc;
+char c1,c2;
 
-const int is_valid = 1, hasattr = 0;
-const char digit = '0', letter = 'a';
-
-int heap[100];
-int index;
-
-int flag, array[2];
-int module, class;
-int errors[10], input[20];
-
-int addi(int a, int b) {
-  return (a + b);
-}
-
-char addc(char a, char b) {
-  return (a);
-}
-
-void print_char(char c) {
-  printf(c);
-}
-
-void print_string() {
-  printf("this is a string");
-}
-
-void print_string_ex(int expr) {
-  printf("expr is ", expr);
-}
-
-void dead_loop() {
-  do{
-    printf("In dead loop");
-  }while (1)
-}
-
-void test_scope() {
-  int max_heap_size;
-
-  max_heap_size = 1;
-  printf("max_heap_size = ", max_heap_size);
-  printf("character = ", character);
-}
-
-int prompt_int() {
-  int val;
-  printf("Please input an integer:");
-  scanf(val);
-  return (val);
+int add(int a, int b, int c, int d, int e ,int f){
+    return (a+b+c+d+e+f);
 }
 
 
-void swap(int index1, int index2) {
-  int temp;
-  temp = heap[index1];
-  heap[index1] = heap[index2];
-  heap[index2] = temp;
+char fool(){
+    return ('T');
 }
 
-void heapify(int index, int heap_size) {
-  int largest;
-  int left;
-  int right;
+int getabs(int x){
+    if(x>0) return (x);
+    if(x==0) return (0);
+    else return (-x);
+}
 
-  largest = index;
-  left = 2 * index + 1;
-  right = 2 * index + 2;
+int fibo(int n){
+    if(n<3) return (1);
+    else return (fibo(n-1) + fibo(n-2));
+}
 
-  if (left < heap_size) {
-    if (heap[left] > heap[largest]) {
-      largest = left;
+void test_strElement(){
+    printf("\n! ~}|{abcABC<=+-$%&*()/");
+}
+
+int test_charTypeTrans(char ch){
+    return (ch+1);
+}
+
+int test_condition(int x){
+    if(x-3*4+2*6) return (1);
+    else{
+        return (0);
     }
-  }
-
-  if (right < heap_size) {
-    if (heap[right] > heap[largest]) {
-      largest = right;
-    }
-  }
-
-  if (largest != index) {
-    swap(index, largest);
-    heapify(largest, heap_size);
-  }
-
 }
 
-void heap_sort(int heap_size) {
-  int i;
+void call_fibo(){
+    ;
+    scanf(m);
+    t=fibo(m);
+    printf("\nfibo result is :",t);
+}
 
-  i = heap_size / 2 - 1;
-  if(i>=0){
+void test_arrayindex(){
+    data[1]=100;
+    data[2+3]=200;
+    data[(8)]=400;
+}
+
+void test_arrayAssign(){
+    i=0;
     do{
-        heapify(i, heap_size);
-        i = i - 1;
-    }while (i >= 0)
-  }
-
-  for (i = heap_size - 1; i >= 0; i = i - 1) {
-    swap(0, i);
-    heapify(0, i);
-  }
-}
-
-void print_heap(int heap_size) {
-  int i;
-
-  for (i = 0; i < heap_size; i = i + 1) {
-    printf(heap[i]);
-    if (i != heap_size - 1) {
-      printf(" ");
+        data[add(0,i-2,0,1,1,0)]=i+1;
+        i=i+1;
     }
-  }
+    while(i<MAX);
 }
 
-void reset_heap() {
-  int i;
-
-  for (i = 0; i < max_heap_size; i = i + 1)
-    heap[i] = 0;
-}
-
-void main() {
-  int N;
-  int temp;
-  int i, j;
-  int array_size;
-
-  reset_heap();
-  scanf(N);
-
-  for (i = 0; i < N; i = i + 1) {
-    scanf(array_size);
-    if (array_size > max_heap_size) {
-      printf("array_size exceeds max_heap_size");
-    } else {
-      for (j = 0; j < array_size; j = j + 1) {
-        scanf(temp);
-        heap[j] = temp;
-      }
-      heap_sort(array_size);
-      print_heap(array_size);
+int test_for(){
+    _abc=0-0;
+    for(i=0;i<n;i=i+1){
+        _abc=_abc+data[i];
     }
-  }
+    return (_abc);
+}
+void test_bra_statement(){
+    {
+    ;;;;;;;;;;;;;;
+    }
+}
+
+
+
+void call_abs(){
+    scanf(m);
+    t=getabs(m);
+    printf("\nabs is: ",t);
+}
+
+void main(){
+    int a;
+    a=-99;
+    x=3;
+    y=-4;
+    c1='T';
+    z=x*y+a/x-(x+y)*a;
+    i=test_charTypeTrans('r');
+    t=add(x,y,z,i,add(x,0,0,y,0,0),0);
+    printf(t);
+    test_bra_statement();
+    scanf(n);
+    test_arrayindex();
+    test_arrayAssign();
+    if(n>0){
+        if(test_for()==(n*(n+1)/2)){
+            printf("\nfor loop work well....");
+        }
+        else
+            printf("\nfor error");
+    }
+    else {
+        if(n==0){
+            if(test_for()==0){
+                printf("\nfor loop work well....");
+            }
+            else
+                printf("\nfor error");
+        }
+    }
+    call_fibo();
+    call_abs();
+    y=--100;
+    if(y==100)
+    printf(fool);
+    test_strElement();
+    printf(test_condition(n));
 }
