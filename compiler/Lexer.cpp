@@ -7,6 +7,14 @@
 #include <iostream>
 
 
+void Compiler::breakProcess() {
+    for (int i = 0; i < this->token.length() - 1; i++) {
+        if (this->token[i] == '\\') {
+            this->token.insert(i++, "\\");
+        }
+    }
+}
+
 bool Compiler::isEOF() {
     return this->infile.peek() == EOF;
 }
@@ -286,13 +294,14 @@ void Compiler::getSym() {
             sym = STRING;
             return;
         }
-        while (ch != '\"' && isLegalString() && ch != 0 && current<lineLength) {
+        while (ch != '\"' && isLegalString() && ch != 0 && current < lineLength) {
             constructToken();
             getChar();
         }
-        if (ch == '\"')
+        if (ch == '\"') {
+            breakProcess();
             sym = STRING;
-        else {
+        } else {
             this->errorHandle(DQERROR);
             sym = 0;
         }

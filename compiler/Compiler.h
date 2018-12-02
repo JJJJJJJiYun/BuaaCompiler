@@ -57,6 +57,8 @@ private:
 
     bool isEOF(); //文件是否结束
 
+    void breakProcess(); //处理\n
+
     /*----------语法分析----------*/
     int temp; //临时变量
     int label; //标签
@@ -137,7 +139,7 @@ private:
 
     void mainDef(); //main函数定义
 
-    void forAssignProcess(bool *flag,int returnType,std::string *name,bool first);
+    void forAssignProcess(bool *flag, int returnType, std::string *name, bool first);
 
 
     /*----------错误处理----------*/
@@ -184,7 +186,7 @@ private:
     void pop(); //推出
 
     /*----------中间代码----------*/
-    midCode* midCodes[MAXMIDCODE];
+    midCode *midCodes[MAXMIDCODE];
     int midCodeIndex;
     std::ofstream midOutFile;
     std::map<int, std::string> midMessage;
@@ -258,10 +260,10 @@ private:
 
     void getUseReg(std::string *rs, std::string *reg);
 
-    void getResultReg(std::string *rd,std::string *reg);
+    void getResultReg(std::string *rd, std::string *reg);
 
-    void findSym(std::string *name,symbol **resultSym, bool *flag);
+    void findSym(std::string *name, symbol **resultSym, bool *flag);
 
-    void writeBack(std::string *rd,std::string *reg);
+    void writeBack(std::string *rd, std::string *reg);
 
 };

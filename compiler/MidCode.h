@@ -7,10 +7,10 @@
 
 #include <string>
 
-typedef struct{
+typedef struct {
     int op;
     std::string *op1;
     std::string *op2;
     std::string *res;
-}midCode;
+} midCode;
 

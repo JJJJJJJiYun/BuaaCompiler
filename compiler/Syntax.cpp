@@ -394,7 +394,7 @@ void Compiler::factorProcess(int *resultType, std::string *operand) {
             else
                 this->errorHandle(RBRACKERROR);
         }
-        //函数调用
+            //函数调用
         else if (this->sym == LPARENT) {
             if (sym->symbolType != FUNCSYM) {
                 this->errorHandle(FUNCERROR);
@@ -403,7 +403,7 @@ void Compiler::factorProcess(int *resultType, std::string *operand) {
             if (sym->returnType == VOIDSYM)
                 this->errorHandle(RETURNFUNCERROR);
             this->getSym();
-            if(this->sym != RPARENT)
+            if (this->sym != RPARENT)
                 this->paraListProcess(sym);
             if (this->sym == RPARENT) {
                 this->pushMidCode(CALL, new std::string(), new std::string(), sym->name);
@@ -412,7 +412,7 @@ void Compiler::factorProcess(int *resultType, std::string *operand) {
             } else
                 this->errorHandle(RPARENTERROR);
         }
-        //变量
+            //变量
         else {
             if (sym->symbolType == SIMPLESYM || sym->symbolType == PARASYM)
                 *operand = *sym->name;
@@ -822,7 +822,7 @@ void Compiler::doWhileProcess(bool *flag, int returnType, std::string *name) {
     std::string *endLabel = new std::string();
     this->genLabel(doLabel);
     this->genLabel(endLabel);
-    this->pushMidCode(LABEL,new std::string(),new std::string(),doLabel);
+    this->pushMidCode(LABEL, new std::string(), new std::string(), doLabel);
     this->getSym();
     if (this->isInTarget(STATEMENT, STATEMENT_SIZE))
         this->statementProcess(flag, returnType, name);
@@ -844,8 +844,8 @@ void Compiler::doWhileProcess(bool *flag, int returnType, std::string *name) {
         }
     } else
         this->errorHandle(NOWHILEERROR);
-    this->pushMidCode(GOTO,new std::string(),new std::string(),doLabel);
-    this->pushMidCode(LABEL,new std::string(),new std::string(),endLabel);
+    this->pushMidCode(GOTO, new std::string(), new std::string(), doLabel);
+    this->pushMidCode(LABEL, new std::string(), new std::string(), endLabel);
 }
 
 void Compiler::forProcess(bool *flag, int returnType, std::string *name) {
@@ -864,7 +864,7 @@ void Compiler::forProcess(bool *flag, int returnType, std::string *name) {
             this->errorHandle(IDERROR);
             this->skip(SEMICOLON);
         }
-        this->pushMidCode(LABEL,new std::string(),new std::string(),forLabel);
+        this->pushMidCode(LABEL, new std::string(), new std::string(), forLabel);
         this->conditionProcess(endLabel);
         if (this->sym == SEMICOLON)
             this->getSym();
@@ -872,7 +872,7 @@ void Compiler::forProcess(bool *flag, int returnType, std::string *name) {
             this->errorHandle(SEMICOLONERROR);
         if (this->sym == ID) {
             this->forAssignProcess(flag, returnType, new std::string(this->token), false);
-            midCode *code = this->midCodes[this->midCodeIndex-1];
+            midCode *code = this->midCodes[this->midCodeIndex - 1];
             tempOp = code->op;
             code->op = NONE;
         } else {
@@ -883,8 +883,8 @@ void Compiler::forProcess(bool *flag, int returnType, std::string *name) {
     } else
         this->errorHandle(LPARENTERROR);
     this->switchMidCode(tempOp);
-    this->pushMidCode(GOTO,new std::string(),new std::string(),forLabel);
-    this->pushMidCode(LABEL,new std::string(),new std::string(),endLabel);
+    this->pushMidCode(GOTO, new std::string(), new std::string(), forLabel);
+    this->pushMidCode(LABEL, new std::string(), new std::string(), endLabel);
     this->syntaxOutFile << "for statement end" << std::endl;
 }
 
@@ -1152,7 +1152,7 @@ void Compiler::mainDef() {
     } else
         this->errorHandle(LBRACEERROR);
     bool flag = false;
-    this->pushMidCode(FUNC,new std::string(),new std::string(),new std::string("main"));
+    this->pushMidCode(FUNC, new std::string(), new std::string(), new std::string("main"));
     this->compoundProcess(&flag, VOIDSYM, name);
     if (this->sym == RBRACE) {
         this->pop();

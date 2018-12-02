@@ -17,23 +17,26 @@ char funcReturnChar(char c){
 }
 
 void funcRelation(int n){
-    if(n<7) {
-        printf("<");
-        return;
+    if(n>0){
+        if(n<7) {
+            printf("<");
+            return;
+        }
+        if(n<=7) {
+            printf("<=");
+            return;
+        }
+        if(n==17) {
+            printf("==");
+            return;
+        }
+        if(n>=77) {
+            printf(">=");
+            return;
+        }
     }
-    if(n<=7) {
-        printf("<=");
-        return;
-    }
-    if(n==17) {
-        printf("==");
-        return;
-    }
-    if(n>=77) {
-        printf(">=");
-    }
-    else {
-        printf(">");
+    else{
+        printf("not > 0");
     }
 }
 
@@ -45,13 +48,17 @@ void funcPrint(){
 
 void funcDoWhileAndFor(){
     int i;
+    int j;
     i=0;
+    j=0;
     do{
         variableIntArray[i] = i;
         i=i+1;
     }while(i<constInt3);
     for(i=0;i<10;i=i+1){
-        printf(variableIntArray[i]);
+        for(j=0;j<i;j=j+1){
+            printf(variableIntArray[i]);
+        }
     }
 }
 
@@ -65,10 +72,15 @@ int funcRecursion(int n){
     return(funcRecursion(n-1)+funcRecursion(n-2));
 }
 
+int multiParaFunc(int a, int b, char c, char d, int e, char f){
+    return (a*b+(c-d)-e+(b/f));
+}
+
 void main(){
     int tempInt;
     char tempChar;
     scanf(variableInt1,variableInt2,variableChar1);
+    printf("\n\\n\\\n",multiParaFunc(7,1,'h','j',7,'y'));
     variableCharArray[0]='z';
     if(variableInt1 == variableInt2){
         tempInt=funcReturnInt(variableInt1,variableInt1);

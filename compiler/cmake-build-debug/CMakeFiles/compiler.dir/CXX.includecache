@@ -6,6 +6,12 @@
 
 #IncludeRegexTransform: 
 
+/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.cpp
+iostream
+-
+Compiler.h
+/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
+
 /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
 fstream
 -
@@ -28,23 +34,7 @@ string
 string
 -
 
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MipsCode.cpp
-sstream
--
-MipsCode.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MipsCode.h
-Compiler.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
-definition.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/definition.h
-
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MipsCode.h
-
 /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/SymbolTab.h
-string
--
-
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/definition.h
 string
 -
 

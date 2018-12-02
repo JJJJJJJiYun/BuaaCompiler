@@ -18,22 +18,23 @@ void Compiler::pushMidCode(int op, std::string *op1, std::string *op2, std::stri
 }
 
 void Compiler::switchMidCode(int op) {
-    int i=this->midCodeIndex-1;
-    while(this->midCodes[i]->op!=0){
+    int i = this->midCodeIndex - 1;
+    while (this->midCodes[i]->op != 0) {
         i--;
     }
     midCode *temp = this->midCodes[i];
-    for(;i<this->midCodeIndex;i++){
-        this->midCodes[i] = this->midCodes[i+1];
+    for (; i < this->midCodeIndex; i++) {
+        this->midCodes[i] = this->midCodes[i + 1];
     }
     temp->op = op;
-    this->midCodes[i-1] = temp;
+    this->midCodes[i - 1] = temp;
 }
 
 void Compiler::outputMid() {
-    for(int i=0;i<this->midCodeIndex;i++){
+    for (int i = 0; i < this->midCodeIndex; i++) {
         midCode *code = this->midCodes[i];
-        this->midOutFile << this->midMessage[code->op] << " " << *code->op1 << " " << *code->op2 << " " << *code->res << std::endl;
+        this->midOutFile << this->midMessage[code->op] << " " << *code->op1 << " " << *code->op2 << " " << *code->res
+                         << std::endl;
     }
 }
 

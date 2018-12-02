@@ -77,7 +77,7 @@ Compiler::Compiler(char *path) {
 
     /*--------中间代码初始化----------*/
     this->midCodeIndex = 0;
-    this->midOutFile = std::ofstream("mid.txt",std::ios::out);
+    this->midOutFile = std::ofstream("mid.txt", std::ios::out);
     this->midMessage[100] = "PARA";
     this->midMessage[101] = "CALL";
     this->midMessage[102] = "RET";
@@ -101,16 +101,16 @@ Compiler::Compiler(char *path) {
     this->midMessage[120] = "EXIT";
 
     /*----------目标代码初始化----------*/
-    this->mipsOutFile = std::ofstream("mips.txt",std::ios::out);
+    this->mipsOutFile = std::ofstream("mips.asm", std::ios::out);
     this->mipsIndex = 0;
     this->currentRef = -1;
-    for(int i=0;i<MAXREG;i++)
+    for (int i = 0; i < MAXREG; i++)
         this->regs[i] = 0;
 }
 
 void Compiler::begin() {
     this->analyze();
-    if(this->errorList.size()>0) {
+    if (this->errorList.size() > 0) {
         this->printError();
         return;
     }
