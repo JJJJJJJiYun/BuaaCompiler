@@ -118,7 +118,22 @@ ADD $t9 $t11 #RET
 GOTO   multiParaFunc$end
 LABEL   multiParaFunc$end
 RET   multiParaFunc
+FUNC   MULTIpARAfUNC
+MUL a b $t12
+SUB $t12 10 $t12
+DIV a b $t13
+ADD $t12 $t13 #RET
+GOTO   MULTIpARAfUNC$end
+LABEL   MULTIpARAfUNC$end
+RET   MULTIpARAfUNC
 FUNC   main
+ADD 7 0 hJy
+ADD 17 0 HjY
+PARA hJy 0 hJy
+PARA HjY 0 HjY
+CALL   MULTIpARAfUNC
+ADD #RET 0 $t14
+PRINT $t14 int $t14
 SCAN variableInt1 int variableInt1
 SCAN variableInt2 int variableInt2
 SCAN variableChar1 char variableChar1
@@ -129,9 +144,9 @@ PARA 106 0 106
 PARA 7 0 7
 PARA 121 0 121
 CALL   multiParaFunc
-ADD #RET 0 $t12
+ADD #RET 0 $t15
 PRINT 8 0 8
-PRINT $t12 int $t12
+PRINT $t15 int $t15
 LARRAY 122 0 variableCharArray
 NEQU variableInt1 variableInt2 $label22
 PARA variableInt1 0 variableInt1
@@ -166,12 +181,12 @@ CALL   funcDoWhileAndFor
 GOTO   $label31
 LABEL   $label30
 LABEL   $label31
-RARRAY variableCharArray 0 $t15
-NEQU variableChar1 $t15 $label32
+RARRAY variableCharArray 0 $t18
+NEQU variableChar1 $t18 $label32
 PARA variableInt1 0 variableInt1
 CALL   funcRecursion
-ADD #RET 0 $t16
-PRINT $t16 int $t16
+ADD #RET 0 $t19
+PRINT $t19 int $t19
 GOTO   $label33
 LABEL   $label32
 LABEL   $label33

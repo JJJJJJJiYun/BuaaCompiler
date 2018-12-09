@@ -14,7 +14,7 @@ add $fp, $sp, $zero
 addi $gp, $gp, 65536
 j main
 nop
-funcreturnint:
+funcReturnInt:
 addi $sp, $sp, 8
 sw $t0, -16($sp)
 sw $t1, -20($sp)
@@ -46,9 +46,9 @@ addi $t7, $t9, 2
 sw $t7, -8($fp)
 lw $t9, -8($fp)
 addi $v0, $t9, 0
-j funcreturnint$end
+j funcReturnInt$end
 nop
-funcreturnint$end:
+funcReturnInt$end:
 lw $ra, 4($sp)
 lw $fp, 8($sp)
 lw $s6, 12($sp)
@@ -68,7 +68,7 @@ lw $t0, 64($sp)
 addi $sp, $sp, 80
 jr $ra
 nop
-funcreturnchar:
+funcReturnChar:
 addi $sp, $sp, 4
 sw $t0, -8($sp)
 sw $t1, -12($sp)
@@ -93,9 +93,9 @@ addi $t7, $t9, 0
 sw $t7, -4($fp)
 lw $t9, -4($fp)
 addi $v0, $t9, 0
-j funcreturnchar$end
+j funcReturnChar$end
 nop
-funcreturnchar$end:
+funcReturnChar$end:
 lw $ra, 4($sp)
 lw $fp, 8($sp)
 lw $s6, 12($sp)
@@ -115,7 +115,7 @@ lw $t0, 64($sp)
 addi $sp, $sp, 72
 jr $ra
 nop
-funcrelation:
+funcRelation:
 addi $sp, $sp, 4
 sw $t0, -4($sp)
 sw $t1, -8($sp)
@@ -149,7 +149,7 @@ syscall
 li $v0, 4
 la $a0, break
 syscall
-j funcrelation$end
+j funcRelation$end
 nop
 j $label3
 nop
@@ -165,7 +165,7 @@ syscall
 li $v0, 4
 la $a0, break
 syscall
-j funcrelation$end
+j funcRelation$end
 nop
 j $label5
 nop
@@ -181,7 +181,7 @@ syscall
 li $v0, 4
 la $a0, break
 syscall
-j funcrelation$end
+j funcRelation$end
 nop
 j $label7
 nop
@@ -197,7 +197,7 @@ syscall
 li $v0, 4
 la $a0, break
 syscall
-j funcrelation$end
+j funcRelation$end
 nop
 j $label9
 nop
@@ -213,7 +213,7 @@ li $v0, 4
 la $a0, break
 syscall
 $label1:
-funcrelation$end:
+funcRelation$end:
 lw $ra, 4($sp)
 lw $fp, 8($sp)
 lw $s6, 12($sp)
@@ -233,7 +233,7 @@ lw $t0, 64($sp)
 addi $sp, $sp, 68
 jr $ra
 nop
-funcprint:
+funcPrint:
 sw $t0, 0($sp)
 sw $t1, -4($sp)
 sw $t2, -8($sp)
@@ -278,7 +278,7 @@ syscall
 li $v0, 4
 la $a0, break
 syscall
-funcprint$end:
+funcPrint$end:
 lw $ra, 4($sp)
 lw $fp, 8($sp)
 lw $s6, 12($sp)
@@ -298,7 +298,7 @@ lw $t0, 64($sp)
 addi $sp, $sp, 64
 jr $ra
 nop
-funcdowhileandfor:
+funcDoWhileAndFor:
 sw $t0, -24($sp)
 sw $t1, -28($sp)
 sw $t2, -32($sp)
@@ -378,7 +378,7 @@ sw $t7, 0($fp)
 j $label12
 nop
 $label13:
-funcdowhileandfor$end:
+funcDoWhileAndFor$end:
 lw $ra, 4($sp)
 lw $fp, 8($sp)
 lw $s6, 12($sp)
@@ -398,7 +398,7 @@ lw $t0, 64($sp)
 addi $sp, $sp, 88
 jr $ra
 nop
-funcrecursion:
+funcRecursion:
 addi $sp, $sp, 4
 sw $t0, -20($sp)
 sw $t1, -24($sp)
@@ -429,7 +429,7 @@ li $v0, 4
 la $a0, break
 syscall
 li $v0, -1
-j funcrecursion$end
+j funcRecursion$end
 nop
 j $label17
 nop
@@ -440,7 +440,7 @@ li $t8, 1
 bne $t9, $t8, $label18
 nop
 li $v0, 1
-j funcrecursion$end
+j funcRecursion$end
 nop
 j $label19
 nop
@@ -451,7 +451,7 @@ li $t8, 2
 bne $t9, $t8, $label20
 nop
 li $v0, 1
-j funcrecursion$end
+j funcRecursion$end
 nop
 j $label21
 nop
@@ -463,7 +463,7 @@ sw $t7, -4($fp)
 lw $t7, -4($fp)
 sw $t7, 0($sp)
 addi $sp, $sp, -4
-jal funcrecursion
+jal funcRecursion
 nop
 addi $t7, $v0, 0
 sw $t7, -8($fp)
@@ -473,16 +473,16 @@ sw $t7, -12($fp)
 lw $t7, -12($fp)
 sw $t7, 0($sp)
 addi $sp, $sp, -4
-jal funcrecursion
+jal funcRecursion
 nop
 addi $t7, $v0, 0
 sw $t7, -16($fp)
 lw $t9, -8($fp)
 lw $t8, -16($fp)
 add $v0, $t9, $t8
-j funcrecursion$end
+j funcRecursion$end
 nop
-funcrecursion$end:
+funcRecursion$end:
 lw $ra, 4($sp)
 lw $fp, 8($sp)
 lw $s6, 12($sp)
@@ -502,7 +502,7 @@ lw $t0, 64($sp)
 addi $sp, $sp, 84
 jr $ra
 nop
-multiparafunc:
+multiParaFunc:
 addi $sp, $sp, 24
 sw $t0, -36($sp)
 sw $t1, -40($sp)
@@ -546,9 +546,9 @@ sw $t7, -32($fp)
 lw $t9, -24($fp)
 lw $t8, -32($fp)
 add $v0, $t9, $t8
-j multiparafunc$end
+j multiParaFunc$end
 nop
-multiparafunc$end:
+multiParaFunc$end:
 lw $ra, 4($sp)
 lw $fp, 8($sp)
 lw $s6, 12($sp)
@@ -568,25 +568,103 @@ lw $t0, 64($sp)
 addi $sp, $sp, 100
 jr $ra
 nop
-main:
-sw $t0, -28($sp)
-sw $t1, -32($sp)
-sw $t2, -36($sp)
-sw $t3, -40($sp)
-sw $t4, -44($sp)
-sw $t5, -48($sp)
-sw $t6, -52($sp)
-sw $s0, -56($sp)
-sw $s1, -60($sp)
-sw $s2, -64($sp)
-sw $s3, -68($sp)
-sw $s4, -72($sp)
-sw $s5, -76($sp)
-sw $s6, -80($sp)
-sw $fp, -84($sp)
-sw $ra, -88($sp)
+MULTIpARAfUNC:
+addi $sp, $sp, 8
+sw $t0, -16($sp)
+sw $t1, -20($sp)
+sw $t2, -24($sp)
+sw $t3, -28($sp)
+sw $t4, -32($sp)
+sw $t5, -36($sp)
+sw $t6, -40($sp)
+sw $s0, -44($sp)
+sw $s1, -48($sp)
+sw $s2, -52($sp)
+sw $s3, -56($sp)
+sw $s4, -60($sp)
+sw $s5, -64($sp)
+sw $s6, -68($sp)
+sw $fp, -72($sp)
+sw $ra, -76($sp)
 add $fp, $sp, $zero
-addi $sp, $sp, -92
+addi $sp, $sp, -80
+lw $t9, 0($fp)
+lw $t8, -4($fp)
+mul $t7, $t9, $t8
+sw $t7, -8($fp)
+lw $t9, -8($fp)
+subi $t7, $t9, 10
+sw $t7, -8($fp)
+lw $t9, 0($fp)
+lw $t8, -4($fp)
+div $t9, $t8
+mflo $t7
+sw $t7, -12($fp)
+lw $t9, -8($fp)
+lw $t8, -12($fp)
+add $v0, $t9, $t8
+j MULTIpARAfUNC$end
+nop
+MULTIpARAfUNC$end:
+lw $ra, 4($sp)
+lw $fp, 8($sp)
+lw $s6, 12($sp)
+lw $s5, 16($sp)
+lw $s4, 20($sp)
+lw $s3, 24($sp)
+lw $s2, 28($sp)
+lw $s1, 32($sp)
+lw $s0, 36($sp)
+lw $t6, 40($sp)
+lw $t5, 44($sp)
+lw $t4, 48($sp)
+lw $t3, 52($sp)
+lw $t2, 56($sp)
+lw $t1, 60($sp)
+lw $t0, 64($sp)
+addi $sp, $sp, 80
+jr $ra
+nop
+main:
+sw $t0, -40($sp)
+sw $t1, -44($sp)
+sw $t2, -48($sp)
+sw $t3, -52($sp)
+sw $t4, -56($sp)
+sw $t5, -60($sp)
+sw $t6, -64($sp)
+sw $s0, -68($sp)
+sw $s1, -72($sp)
+sw $s2, -76($sp)
+sw $s3, -80($sp)
+sw $s4, -84($sp)
+sw $s5, -88($sp)
+sw $s6, -92($sp)
+sw $fp, -96($sp)
+sw $ra, -100($sp)
+add $fp, $sp, $zero
+addi $sp, $sp, -104
+li $t7, 7
+sw $t7, -8($fp)
+li $t7, 17
+sw $t7, -12($fp)
+lw $t7, -8($fp)
+sw $t7, 0($sp)
+addi $sp, $sp, -4
+lw $t7, -12($fp)
+sw $t7, 0($sp)
+addi $sp, $sp, -4
+jal MULTIpARAfUNC
+nop
+addi $t7, $v0, 0
+sw $t7, -16($fp)
+li $v0, 1
+lw $t7, -16($fp)
+add $a0, $t7, $zero
+syscall
+li $v0, 4
+la $a0, break
+syscall
 li $v0, 5
 syscall
 add $t7, $v0, $zero
@@ -617,10 +695,10 @@ addi $sp, $sp, -4
 li $t7, 121
 sw $t7, 0($sp)
 addi $sp, $sp, -4
-jal multiparafunc
+jal multiParaFunc
 nop
 addi $t7, $v0, 0
-sw $t7, -8($fp)
+sw $t7, -20($fp)
 li $v0, 4
 la $a0, str8
 syscall
@@ -628,7 +706,7 @@ li $v0, 4
 la $a0, break
 syscall
 li $v0, 1
-lw $t7, -8($fp)
+lw $t7, -20($fp)
 add $a0, $t7, $zero
 syscall
 li $v0, 4
@@ -649,7 +727,7 @@ addi $sp, $sp, -4
 lw $t7, 24($gp)
 sw $t7, 0($sp)
 addi $sp, $sp, -4
-jal funcreturnint
+jal funcReturnInt
 nop
 addi $t7, $v0, 0
 sw $t7, 0($fp)
@@ -672,7 +750,7 @@ nop
 lw $t7, 72($gp)
 sw $t7, 0($sp)
 addi $sp, $sp, -4
-jal funcreturnchar
+jal funcReturnChar
 nop
 addi $t7, $v0, 0
 sw $t7, -4($fp)
@@ -694,7 +772,7 @@ nop
 lw $t7, 24($gp)
 sw $t7, 0($sp)
 addi $sp, $sp, -4
-jal funcrelation
+jal funcRelation
 nop
 j $label27
 nop
@@ -704,7 +782,7 @@ lw $t9, 72($gp)
 li $t8, 45
 bne $t9, $t8, $label28
 nop
-jal funcprint
+jal funcPrint
 nop
 j $label29
 nop
@@ -714,7 +792,7 @@ lw $t9, 72($gp)
 li $t8, 47
 bne $t9, $t8, $label30
 nop
-jal funcdowhileandfor
+jal funcDoWhileAndFor
 nop
 j $label31
 nop
@@ -724,20 +802,20 @@ addi $t9, $zero, 19
 sll $t9, $t9, 2
 addu $t9, $t9, $gp
 lw $t7, 0($t9)
-sw $t7, -20($fp)
+sw $t7, -32($fp)
 lw $t9, 72($gp)
-lw $t8, -20($fp)
+lw $t8, -32($fp)
 bne $t9, $t8, $label32
 nop
 lw $t7, 24($gp)
 sw $t7, 0($sp)
 addi $sp, $sp, -4
-jal funcrecursion
+jal funcRecursion
 nop
 addi $t7, $v0, 0
-sw $t7, -24($fp)
+sw $t7, -36($fp)
 li $v0, 1
-lw $t7, -24($fp)
+lw $t7, -36($fp)
 add $a0, $t7, $zero
 syscall
 li $v0, 4

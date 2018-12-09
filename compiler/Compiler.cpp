@@ -68,6 +68,7 @@ Compiler::Compiler(char *path) {
     this->errorMessage[87] = "while missing error";
 
     /*----------符号表初始化----------*/
+    this->symbolOutFile = std::ofstream("symbol.txt",std::ios::out);
     this->index = 0;
     this->top = 0;
     this->address = 0;
@@ -114,6 +115,7 @@ void Compiler::begin() {
         this->printError();
         return;
     }
+    this->outputSymbol();
     this->outputMid();
     this->generate();
 }

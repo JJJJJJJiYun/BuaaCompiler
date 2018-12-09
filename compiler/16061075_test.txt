@@ -76,9 +76,18 @@ int multiParaFunc(int a, int b, char c, char d, int e, char f){
     return (a*b+(c-d)-e+(b/f));
 }
 
+int MULTIpARAfUNC(int a,int b){
+    return (a*b-10+(a/b));
+}
+
 void main(){
     int tempInt;
     char tempChar;
+    int hJy;
+    int HjY;
+    hJy = 7;
+    HjY = 17;
+    printf(MULTIpARAfUNC(hJy,HjY));
     scanf(variableInt1,variableInt2,variableChar1);
     printf("\n\\n\\\n",multiParaFunc(7,1,'h','j',7,'y'));
     variableCharArray[0]='z';

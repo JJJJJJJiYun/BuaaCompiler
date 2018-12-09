@@ -76,30 +76,26 @@ void Compiler::initAscii() {
     this->generateCode(&s);
 }
 
-void Compiler::outputMips() {
-    for (int i = 0; i < this->mipsIndex; i++)
-        this->mipsOutFile << *(this->mipsCodes[i]) << std::endl;
-}
 
-void Compiler::str2Lower(std::string *oldStr, std::string *newStr) {
+void Compiler::genNewStr(std::string *oldStr, std::string *newStr) {
     if (!newStr)
         newStr = new std::string();
     for (int i = 0; i < oldStr->length(); i++) {
-        char c = tolower((*oldStr)[i]);
+        char c = (*oldStr)[i];
         newStr->append(1, c);
     }
 }
 
 void Compiler::gotoProcess(std::string *label) {
     std::string *newLabel = new std::string();
-    this->str2Lower(label, newLabel);
+    this->genNewStr(label, newLabel);
     this->generateCode(j, newLabel);
     this->generateCode(nop);
 }
 
 void Compiler::genMipsLabel(std::string *label) {
     std::string *newLabel = new std::string();
-    this->str2Lower(label, newLabel);
+    this->genNewStr(label, newLabel);
     *newLabel = *newLabel + ":";
     this->pushCode(newLabel);
     delete newLabel;
@@ -345,7 +341,7 @@ void Compiler::lArrayProcess(midCode *code) {
 
 void Compiler::callProcess(std::string *name) {
     std::string *newLabel = new std::string();
-    this->str2Lower(name, newLabel);
+    this->genNewStr(name, newLabel);
     this->generateCode(jal, newLabel);
     this->generateCode(nop);
     delete newLabel;

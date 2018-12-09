@@ -170,6 +170,7 @@ private:
     int globalAddress; //全局地址
     int funcNum; //函数数
     symbol **funcSymbolTab[MAXFUNCSYMBOL]; //函数符号表
+    std::ofstream symbolOutFile;
 
     unsigned int hash(const char *str); //哈希
 
@@ -184,6 +185,8 @@ private:
     void pushString(std::string *str, int *index); //加入字符串
 
     void pop(); //推出
+
+    void outputSymbol();
 
     /*----------中间代码----------*/
     midCode *midCodes[MAXMIDCODE];
@@ -211,8 +214,6 @@ private:
     void generateCode(std::string *code);
 
     void pushCode(std::string *code);
-
-    void outputMips();
 
     void generateCode(std::string *code, std::string *rd, std::string *rs, std::string *rt);
 
@@ -256,7 +257,7 @@ private:
 
     void genMipsLabel(std::string *label);
 
-    void str2Lower(std::string *oldStr, std::string *newStr);
+    void genNewStr(std::string *oldStr, std::string *newStr);
 
     void getUseReg(std::string *rs, std::string *reg);
 

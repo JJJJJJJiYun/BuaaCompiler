@@ -122,6 +122,13 @@ para
 para process end
 return
 func def end
+func def
+para process
+para
+para
+para process end
+return
+func def end
 main
 var def
 var
@@ -129,6 +136,15 @@ var def end
 var def
 var
 var def end
+var def
+var
+var def end
+var def
+var
+var def end
+assign statement
+assign statement
+printf
 scanf
 printf
 assign statement
