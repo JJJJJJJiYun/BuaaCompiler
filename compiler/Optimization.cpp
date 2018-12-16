@@ -114,7 +114,7 @@ void Compiler::blockDivide() {
             case GREEQU:
             case RET:
                 if ((i + 1 < this->midCodeIndex) && !this->blockBeginFlag[i + 1]) {
-                    initBlock(i+1);
+                    initBlock(i + 1);
                 }
                 break;
             case FUNC:
@@ -123,7 +123,7 @@ void Compiler::blockDivide() {
                     initBlock(i);
                 }
                 if (!this->blockBeginFlag[i + 1]) {
-                    initBlock(i+1);
+                    initBlock(i + 1);
                 }
                 break;
         }
@@ -225,6 +225,63 @@ void Compiler::getIndex(int *index, int funcRef, std::string *name) {
     }
 }
 
+void Compiler::opProcess(std::string *op, int funcRef, bool **use, bool **def, int blockIndex) {
+    if (this->isOperandId(op) || this->isOperandTemp(op)) {
+        int index = -1;
+        this->getIndex(&index, funcRef, op);
+        if (index != -1 && !def[blockIndex][index])
+            use[blockIndex][index] = true;
+    }
+}
+
+void Compiler::resProcess(std::string *res, int funcRef, bool **use, bool **def, int blockIndex) {
+    if (this->isOperandId(res) || this->isOperandTemp(res)) {
+        int index = -1;
+        this->getIndex(&index, funcRef, res);
+        if (index != -1 && !use[blockIndex][index])
+            def[blockIndex][index] = true;
+    }
+}
+
+void
+Compiler::outputDataFlow(int blockBegin, int blockEnd, int funcRef, int symNum, bool **use, bool **def,
+                         bool **out,
+                         bool **in) {
+    for (int j = blockBegin; j < blockEnd; j++) {
+        int blockIndex = j;
+        this->dataAnalyzeOutFile << "No." << blockIndex << "基本块" << std::endl;
+        symbol **symbolTab = this->funcSymbolTab[funcRef];
+        this->dataAnalyzeOutFile << "use集合有：" << std::endl;
+        for (int k = 0; k < symNum; k++) {
+            if (use[blockIndex][k])
+                this->dataAnalyzeOutFile << *(symbolTab[k]->name) << " ";
+        }
+        this->dataAnalyzeOutFile << std::endl;
+        this->dataAnalyzeOutFile << "def集合有：" << std::endl;
+        for (int k = 0; k < symNum; k++) {
+            if (def[blockIndex][k])
+                this->dataAnalyzeOutFile << *(symbolTab[k]->name) << " ";
+        }
+        this->dataAnalyzeOutFile << std::endl;
+        this->dataAnalyzeOutFile << "out集合有：" << std::endl;
+        for (int k = 0; k < symNum; k++) {
+            if (out[blockIndex][k])
+                this->dataAnalyzeOutFile << *(symbolTab[k]->name) << " ";
+        }
+        this->dataAnalyzeOutFile << std::endl;
+        this->dataAnalyzeOutFile << "in集合有：" << std::endl;
+        for (int k = 0; k < symNum; k++) {
+            if (in[blockIndex][k])
+                this->dataAnalyzeOutFile << *(symbolTab[k]->name) << " ";
+        }
+        this->dataAnalyzeOutFile << std::endl;
+        this->outData[blockIndex] = new bool[symNum];
+        for (int k = 0; k < symNum; k++) {
+            this->outData[blockIndex][k] = out[blockIndex][k];
+        }
+    }
+}
+
 void Compiler::dataFlowAnalyze() {
     bool **use = new bool *[this->blockIndex];
     bool **def = new bool *[this->blockIndex];
@@ -258,54 +315,18 @@ void Compiler::dataFlowAnalyze() {
                     case SUB:
                     case MUL:
                     case DIV: {
-                        std::string *op1 = code->op1;
-                        std::string *op2 = code->op2;
-                        std::string *res = code->res;
-                        if (this->isOperandId(op1) || this->isOperandTemp(op1)) {
-                            int index = -1;
-                            this->getIndex(&index, funcRef, op1);
-                            if (index != -1 && !def[blockIndex][index])
-                                use[blockIndex][index] = true;
-                        }
-                        if (this->isOperandId(op2) || this->isOperandTemp(op2)) {
-                            int index = -1;
-                            this->getIndex(&index, funcRef, op2);
-                            if (index != -1 && !def[blockIndex][index])
-                                use[blockIndex][index] = true;
-                        }
-                        if (this->isOperandId(res) || this->isOperandTemp(res)) {
-                            int index = -1;
-                            this->getIndex(&index, funcRef, res);
-                            if (index != -1 && !use[blockIndex][index])
-                                def[blockIndex][index] = true;
-                        }
+                        opProcess(code->op1, funcRef, use, def, blockIndex);
+                        opProcess(code->op2, funcRef, use, def, blockIndex);
+                        resProcess(code->res, funcRef, use, def, blockIndex);
                     }
                         break;
                     case PARA: {
-                        std::string *res = code->res;
-                        if (this->isOperandId(res) || this->isOperandTemp(res)) {
-                            int index = -1;
-                            this->getIndex(&index, funcRef, res);
-                            if (index != -1 && !def[blockIndex][index])
-                                use[blockIndex][index] = true;
-                        }
+                        resProcess(code->res, funcRef, use, def, blockIndex);
                     }
                         break;
                     case RARRAY: {
-                        std::string *op2 = code->op2;
-                        std::string *res = code->res;
-                        if (this->isOperandId(op2) || this->isOperandTemp(op2)) {
-                            int index = -1;
-                            this->getIndex(&index, funcRef, op2);
-                            if (index != -1 && !def[blockIndex][index])
-                                use[blockIndex][index] = true;
-                        }
-                        if (this->isOperandId(res) || this->isOperandTemp(res)) {
-                            int index = -1;
-                            this->getIndex(&index, funcRef, res);
-                            if (index != -1 && !use[blockIndex][index])
-                                def[blockIndex][index] = true;
-                        }
+                        opProcess(code->op2, funcRef, use, def, blockIndex);
+                        resProcess(code->res, funcRef, use, def, blockIndex);
                     }
                         break;
                     case EQU:
@@ -314,57 +335,21 @@ void Compiler::dataFlowAnalyze() {
                     case LEEQU:
                     case GRE:
                     case GREEQU: {
-                        std::string *op1 = code->op1;
-                        std::string *op2 = code->op2;
-                        if (this->isOperandId(op1) || this->isOperandTemp(op1)) {
-                            int index = -1;
-                            this->getIndex(&index, funcRef, op1);
-                            if (index != -1 && !def[blockIndex][index])
-                                use[blockIndex][index] = true;
-                        }
-                        if (this->isOperandId(op2) || this->isOperandTemp(op2)) {
-                            int index = -1;
-                            this->getIndex(&index, funcRef, op2);
-                            if (index != -1 && !def[blockIndex][index])
-                                use[blockIndex][index] = true;
-                        }
+                        opProcess(code->op1, funcRef, use, def, blockIndex);
+                        opProcess(code->op2, funcRef, use, def, blockIndex);
                     }
                         break;
                     case SCAN: {
-                        std::string *res = code->res;
-                        if (this->isOperandId(res) || this->isOperandTemp(res)) {
-                            int index = -1;
-                            this->getIndex(&index, funcRef, res);
-                            if (index != -1 && !use[blockIndex][index])
-                                def[blockIndex][index] = true;
-                        }
+                        resProcess(code->res, funcRef, use, def, blockIndex);
                     }
                         break;
                     case PRINT: {
-                        std::string *res = code->res;
-                        if (this->isOperandId(res) || this->isOperandTemp(res)) {
-                            int index = -1;
-                            this->getIndex(&index, funcRef, res);
-                            if (index != -1 && !def[blockIndex][index])
-                                use[blockIndex][index] = true;
-                        }
+                        resProcess(code->res, funcRef, use, def, blockIndex);
                     }
                         break;
                     case LARRAY: {
-                        std::string *op1 = code->op1;
-                        std::string *op2 = code->op2;
-                        if (this->isOperandId(op1) || this->isOperandTemp(op1)) {
-                            int index = -1;
-                            this->getIndex(&index, funcRef, op1);
-                            if (index != -1 && !def[blockIndex][index])
-                                use[blockIndex][index] = true;
-                        }
-                        if (this->isOperandId(op2) || this->isOperandTemp(op2)) {
-                            int index = -1;
-                            this->getIndex(&index, funcRef, op2);
-                            if (index != -1 && !def[blockIndex][index])
-                                use[blockIndex][index] = true;
-                        }
+                        opProcess(code->op1, funcRef, use, def, blockIndex);
+                        opProcess(code->op2, funcRef, use, def, blockIndex);
                     }
                         break;
                 }
@@ -404,39 +389,7 @@ void Compiler::dataFlowAnalyze() {
                 }
             }
         }
-        for (int j = blockBegin; j < blockEnd; j++) {
-            int blockIndex = j;
-            this->dataAnalyzeOutFile << "No." << blockIndex << "基本块" << std::endl;
-            symbol **symbolTab = this->funcSymbolTab[funcRef];
-            this->dataAnalyzeOutFile << "use集合有：" << std::endl;
-            for (int k = 0; k < symNum; k++) {
-                if (use[blockIndex][k])
-                    this->dataAnalyzeOutFile << *(symbolTab[k]->name) << " ";
-            }
-            this->dataAnalyzeOutFile << std::endl;
-            this->dataAnalyzeOutFile << "def集合有：" << std::endl;
-            for (int k = 0; k < symNum; k++) {
-                if (def[blockIndex][k])
-                    this->dataAnalyzeOutFile << *(symbolTab[k]->name) << " ";
-            }
-            this->dataAnalyzeOutFile << std::endl;
-            this->dataAnalyzeOutFile << "out集合有：" << std::endl;
-            for (int k = 0; k < symNum; k++) {
-                if (out[blockIndex][k])
-                    this->dataAnalyzeOutFile << *(symbolTab[k]->name) << " ";
-            }
-            this->dataAnalyzeOutFile << std::endl;
-            this->dataAnalyzeOutFile << "in集合有：" << std::endl;
-            for (int k = 0; k < symNum; k++) {
-                if (in[blockIndex][k])
-                    this->dataAnalyzeOutFile << *(symbolTab[k]->name) << " ";
-            }
-            this->dataAnalyzeOutFile << std::endl;
-            this->outData[blockIndex] = new bool[symNum];
-            for (int k = 0; k < symNum; k++) {
-                this->outData[blockIndex][k] = out[blockIndex][k];
-            }
-        }
+        this->outputDataFlow(blockBegin, blockEnd, funcRef, symNum, use, def, out, in);
         int nodeNum = 0;
         int node2Sym[1000];
         for (int j = 0; j < symNum; j++) {
@@ -618,7 +571,7 @@ void Compiler::dag() {
         if (firstCode->op != ADD && firstCode->op != SUB && firstCode->op != MUL && firstCode->op != DIV &&
             firstCode->op != RARRAY && firstCode->op != LARRAY && firstCode->op != SCAN && firstCode->op != PARA &&
             firstCode->op != PRINT) {
-            this->pushMidCode(firstCode->op, firstCode->op1, firstCode->op1, firstCode->res);
+            this->pushMidCode(firstCode->op, firstCode->op1, firstCode->op2, firstCode->res);
             begin++;
         }
         if (end == begin)
@@ -662,7 +615,8 @@ void Compiler::dag() {
                                     listNode1->name = code->res;
                                     nodeTab[tabLength++] = listNode1;
                                     listNode1->index = listNode->index;
-                                    this->dagOutFile << *code->res << " 与 " << *dagNode->name << " 值相等" << std::endl;
+                                    this->dagOutFile << *code->res << " 与 " << *dagNode->name << " 值相等"
+                                                     << std::endl;
                                     count++;
                                     int index = -1;
                                     this->getIndex(&index, funcRef, code->res);
@@ -777,22 +731,22 @@ void Compiler::dag() {
                     break;
             }
         }
-        if(!count){
-            for(int j=begin;j<end;j++){
+        if (!count) {
+            for (int j = begin; j < end; j++) {
                 midCode *code = this->midCodes[j];
-                this->pushMidCode(code->op,code->op1,code->op2,code->res);
+                this->pushMidCode(code->op, code->op1, code->op2, code->res);
             }
             continue;
         }
-        this->dagOutFile<<"No."<<i<<"块有优化"<<std::endl;
-        Node *midQueue[MAXNODE*5] = {0};
+        this->dagOutFile << "No." << i << "块有优化" << std::endl;
+        Node *midQueue[MAXNODE * 5] = {0};
         int midLength = 0;
-        for(int j=0;j<nodeIndex;j++){
+        for (int j = 0; j < nodeIndex; j++) {
             Node *node = dag[j];
-            if(!node->isLeaf)
+            if (!node->isLeaf)
                 midQueue[midLength++] = node;
         }
-        for(int j=0;j<midLength;j++){
+        for (int j = 0; j < midLength; j++) {
             Node *node = midQueue[j];
             std::string *mid = new std::string();
             *mid = *node->name;
@@ -802,65 +756,64 @@ void Compiler::dag() {
             std::string *op2 = new std::string();
             *op1 = *listNode1->name;
             *op2 = *listNode2->name;
-            if(node->op == PRINT || node->op == PARA)
-                this->pushMidCode(node->op,op1,op2,op1);
+            if (node->op == PRINT || node->op == PARA)
+                this->pushMidCode(node->op, op1, op2, op1);
             else
-                this->pushMidCode(node->op,op1,op2,mid);
-            for(int k=0;k<tabLength;k++){
+                this->pushMidCode(node->op, op1, op2, mid);
+            for (int k = 0; k < tabLength; k++) {
                 ListNode *listNode = nodeTab[k];
-                if(listNode->index == node->index && !this->isEqual(*listNode->name,*mid)){
-                    if(this->isOperandTemp(listNode->name)){
+                if (listNode->index == node->index && !this->isEqual(*listNode->name, *mid)) {
+                    if (this->isOperandTemp(listNode->name)) {
                         int index = -1;
-                        this->getIndex(&index,funcRef,listNode->name);
-                        if(this->outData[blockIndex][index])
-                            this->pushMidCode(ADD,mid,new std::string("0"),listNode->name);
-                        else{
-                            this->dagOutFile<<*listNode->name<<" 不活跃，被删除"<<std::endl;
-                            midCode *code = this->midCodes[end-1];
-                            switch (code->op){
+                        this->getIndex(&index, funcRef, listNode->name);
+                        if (this->outData[blockIndex][index])
+                            this->pushMidCode(ADD, mid, new std::string("0"), listNode->name);
+                        else {
+                            this->dagOutFile << *listNode->name << " 不活跃，被删除" << std::endl;
+                            midCode *code = this->midCodes[end - 1];
+                            switch (code->op) {
                                 case EQU:
                                 case NEQU:
                                 case LE:
                                 case LEEQU:
                                 case GRE:
                                 case GREEQU: {
-                                    if(this->isEqual(*code->op1,*listNode->name)){
-                                        this->dagOutFile<<*code->op1<< " 被替换为了" <<*mid<<std::endl;
+                                    if (this->isEqual(*code->op1, *listNode->name)) {
+                                        this->dagOutFile << *code->op1 << " 被替换为了" << *mid << std::endl;
                                         *code->op1 = *mid;
                                     }
-                                    if(this->isEqual(*code->op2,*listNode->name)){
-                                        this->dagOutFile<<*code->op2<< " 被替换为了" <<*mid<<std::endl;
+                                    if (this->isEqual(*code->op2, *listNode->name)) {
+                                        this->dagOutFile << *code->op2 << " 被替换为了" << *mid << std::endl;
                                         *code->op2 = *mid;
                                     }
                                 }
                                     break;
                             }
                         }
-                    }
-                    else if(this->isOperandId(listNode->name)){
+                    } else if (this->isOperandId(listNode->name)) {
                         int index = -1;
-                        this->getIndex(&index,funcRef,listNode->name);
-                        if(index == -1)
-                            this->pushMidCode(ADD,mid,new std::string("0"),listNode->name);
-                        else{
-                            if(this->outData[blockIndex][index])
-                                this->pushMidCode(ADD,mid,new std::string("0"),listNode->name);
-                            else{
-                                this->dagOutFile<<*listNode->name<<" 不活跃，被删除"<<std::endl;
-                                midCode *code=this->midCodes[end-1];
-                                switch (code->op){
+                        this->getIndex(&index, funcRef, listNode->name);
+                        if (index == -1)
+                            this->pushMidCode(ADD, mid, new std::string("0"), listNode->name);
+                        else {
+                            if (this->outData[blockIndex][index])
+                                this->pushMidCode(ADD, mid, new std::string("0"), listNode->name);
+                            else {
+                                this->dagOutFile << *listNode->name << " 不活跃，被删除" << std::endl;
+                                midCode *code = this->midCodes[end - 1];
+                                switch (code->op) {
                                     case EQU:
                                     case NEQU:
                                     case LE:
                                     case LEEQU:
                                     case GRE:
                                     case GREEQU: {
-                                        if(this->isEqual(*code->op1,*listNode->name)){
-                                            this->dagOutFile<<*code->op1<< " 被替换为了" <<*mid<<std::endl;
+                                        if (this->isEqual(*code->op1, *listNode->name)) {
+                                            this->dagOutFile << *code->op1 << " 被替换为了" << *mid << std::endl;
                                             *code->op1 = *mid;
                                         }
-                                        if(this->isEqual(*code->op2,*listNode->name)){
-                                            this->dagOutFile<<*code->op2<< " 被替换为了" <<*mid<<std::endl;
+                                        if (this->isEqual(*code->op2, *listNode->name)) {
+                                            this->dagOutFile << *code->op2 << " 被替换为了" << *mid << std::endl;
                                             *code->op2 = *mid;
                                         }
                                     }
@@ -869,13 +822,13 @@ void Compiler::dag() {
                             }
                         }
                     } else
-                        this->pushMidCode(ADD,mid,new std::string("0"),listNode->name);
+                        this->pushMidCode(ADD, mid, new std::string("0"), listNode->name);
                 }
             }
         }
-        if(endIndex == end-1){
-            midCode *code = this->midCodes[end-1];
-            this->pushMidCode(code->op,code->op1,code->op2,code->res);
+        if (endIndex == end - 1) {
+            midCode *code = this->midCodes[end - 1];
+            this->pushMidCode(code->op, code->op1, code->op2, code->res);
         }
     }
 }

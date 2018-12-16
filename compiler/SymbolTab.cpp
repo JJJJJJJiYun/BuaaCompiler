@@ -118,7 +118,7 @@ symbol *Compiler::push(std::string *name, int returnType, int symbolType, int fe
 void Compiler::outputSymbol(std::ofstream &ofStream) {
     std::stringstream stringStream = std::stringstream();
     for (int i = 0; i < this->funcNum; i++) {
-        stringStream<<"No"<<i<<"function"<<std::endl;
+        stringStream << "No" << i << "function" << std::endl;
         symbol **tab = this->funcSymbolTab[i];
         int num = this->funcSymbolNum[i];
         for (int j = 0; j < num; j++) {
@@ -159,7 +159,7 @@ void Compiler::outputSymbol(std::ofstream &ofStream) {
                 stringStream << (sym->reg < (MAXREG / 2) ? "$t" : "$s") << sym->reg % (MAXREG / 2) << std::endl;
         }
     }
-    stringStream<<"global"<<std::endl;
+    stringStream << "global" << std::endl;
     for (int i = 0; i < this->top; i++) {
         symbol *sym = this->symbolTab[i];
         stringStream << i << " " << *(sym->name) << " " << sym->line + 1 << " ";

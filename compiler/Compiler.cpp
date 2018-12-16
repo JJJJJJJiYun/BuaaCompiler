@@ -69,7 +69,7 @@ Compiler::Compiler(char *path) {
 
     /*----------符号表初始化----------*/
     this->symbolOutFile = std::ofstream("symbol.txt", std::ios::out);
-    this->symbolOptOutFile = std::ofstream("optSymbol.txt",std::ios::out);
+    this->symbolOptOutFile = std::ofstream("optSymbol.txt", std::ios::out);
     this->index = 0;
     this->top = 0;
     this->address = 0;
@@ -114,7 +114,7 @@ Compiler::Compiler(char *path) {
     /*----------优化初始化----------*/
     this->blockOutFile = std::ofstream("block.txt", std::ios::out);
     this->dataAnalyzeOutFile = std::ofstream("dataAnalyze.txt", std::ios::out);
-    this->dagOutFile = std::ofstream("dag.txt",std::ios::out);
+    this->dagOutFile = std::ofstream("dag.txt", std::ios::out);
     this->blockIndex = 0;
     for (int i = 0; i < MAXMIDCODE; i++) {
         this->blockBeginFlag[i] = false;

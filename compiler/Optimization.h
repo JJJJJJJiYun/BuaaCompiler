@@ -19,7 +19,7 @@ typedef struct {
     bool connect[1000];
 } ConflictNode;
 
-typedef struct{
+typedef struct {
     std::string *name;
     int index;
 } ListNode;
@@ -34,7 +34,7 @@ typedef struct {
     int index;
     bool flag;
     bool isLeaf;
-}Node;
+} Node;
 
 
 

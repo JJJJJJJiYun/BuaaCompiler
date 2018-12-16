@@ -297,12 +297,20 @@ private:
 
     void dataFlowAnalyze();
 
-    void getIndex(int *index,int funcRef,std::string *name);
+    void getIndex(int *index, int funcRef, std::string *name);
 
     void dag();
 
-    void getNode(ListNode *nodeList[],int length,std::string *name,ListNode **listNode);
+    void getNode(ListNode *nodeList[], int length, std::string *name, ListNode **listNode);
 
     void initBlock(int index);
+
+    void opProcess(std::string *op, int funcRef, bool **use, bool **def, int blockIndex);
+
+    void resProcess(std::string *res, int funcRef, bool **use, bool **def, int blockIndex);
+
+    void outputDataFlow(int blockBegin, int blockEnd, int funcRef, int symNum, bool **use, bool **def,
+                        bool **out,
+                        bool **in);
 
 };
