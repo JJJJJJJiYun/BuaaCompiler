@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
         "/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Lexer.cpp" "/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/cmake-build-debug/CMakeFiles/compiler.dir/Lexer.cpp.o"
         "/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MidCode.cpp" "/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/cmake-build-debug/CMakeFiles/compiler.dir/MidCode.cpp.o"
         "/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MipsCode.cpp" "/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/cmake-build-debug/CMakeFiles/compiler.dir/MipsCode.cpp.o"
+        "/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Optimization.cpp" "/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/cmake-build-debug/CMakeFiles/compiler.dir/Optimization.cpp.o"
         "/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/SymbolTab.cpp" "/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/cmake-build-debug/CMakeFiles/compiler.dir/SymbolTab.cpp.o"
         "/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Syntax.cpp" "/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/cmake-build-debug/CMakeFiles/compiler.dir/Syntax.cpp.o"
         "/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/main.cpp" "/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/cmake-build-debug/CMakeFiles/compiler.dir/main.cpp.o"

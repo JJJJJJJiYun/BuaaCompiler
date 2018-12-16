@@ -258,6 +258,33 @@ MipsCode.cpp.s:
 	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/MipsCode.cpp.s
 .PHONY : MipsCode.cpp.s
 
+Optimization.o: Optimization.cpp.o
+
+.PHONY : Optimization.o
+
+# target to build an object file
+Optimization.cpp.o:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/Optimization.cpp.o
+.PHONY : Optimization.cpp.o
+
+Optimization.i: Optimization.cpp.i
+
+.PHONY : Optimization.i
+
+# target to preprocess a source file
+Optimization.cpp.i:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/Optimization.cpp.i
+.PHONY : Optimization.cpp.i
+
+Optimization.s: Optimization.cpp.s
+
+.PHONY : Optimization.s
+
+# target to generate assembly for a file
+Optimization.cpp.s:
+	$(MAKE) -f CMakeFiles/compiler.dir/build.make CMakeFiles/compiler.dir/Optimization.cpp.s
+.PHONY : Optimization.cpp.s
+
 SymbolTab.o: SymbolTab.cpp.o
 
 .PHONY : SymbolTab.o
@@ -363,6 +390,9 @@ help:
 	@echo "... MipsCode.o"
 	@echo "... MipsCode.i"
 	@echo "... MipsCode.s"
+	@echo "... Optimization.o"
+	@echo "... Optimization.i"
+	@echo "... Optimization.s"
 	@echo "... SymbolTab.o"
 	@echo "... SymbolTab.i"
 	@echo "... SymbolTab.s"

@@ -9,6 +9,7 @@
 #include "Error.h"
 #include "SymbolTab.h"
 #include "MidCode.h"
+#include "Optimization.h"
 
 #define MAXSYMBOL 5000
 #define MAXHASH 4096
@@ -171,6 +172,7 @@ private:
     int funcNum; //函数数
     symbol **funcSymbolTab[MAXFUNCSYMBOL]; //函数符号表
     std::ofstream symbolOutFile;
+    std::ofstream symbolOptOutFile;
 
     unsigned int hash(const char *str); //哈希
 
@@ -186,26 +188,29 @@ private:
 
     void pop(); //推出
 
-    void outputSymbol();
+    void outputSymbol(std::ofstream &ofStream); //输出符号表
 
     /*----------中间代码----------*/
     midCode *midCodes[MAXMIDCODE];
     int midCodeIndex;
     std::ofstream midOutFile;
+    std::ofstream midOptOutFile;
     std::map<int, std::string> midMessage;
 
     void pushMidCode(int op, std::string *op1, std::string *op2, std::string *res);
 
     void switchMidCode(int op);
 
-    void outputMid();
+    void outputMid(std::ofstream &ofStream);
 
     /*----------目标代码----------*/
     std::string *mipsCodes[MAXMIPSCODE];
     std::ofstream mipsOutFile;
+    std::ofstream mipsOptOutFile;
     int mipsIndex;
     int currentRef;
     std::string *regs[MAXREG];
+    bool optimized = false;
 
     void generate();
 
@@ -266,5 +271,38 @@ private:
     void findSym(std::string *name, symbol **resultSym, bool *flag);
 
     void writeBack(std::string *rd, std::string *reg);
+
+    /*----------优化----------*/
+    bool blockBeginFlag[MAXMIDCODE];
+    int blockBegin[MAXBLOCK];
+    int blockIndex;
+    Block *blockArray[MAXBLOCK];
+    int funcBlockBegin[MAXFUNCNUM];
+    bool **outData;
+    std::ofstream blockOutFile;
+    std::ofstream dataAnalyzeOutFile;
+    std::ofstream dagOutFile;
+
+    void optimize();
+
+    void zeroAndDuplicateOptimize();
+
+    void blockDivide();
+
+    void connectBlock();
+
+    void findLabel(std::string *label, int *index);
+
+    void outputBlock();
+
+    void dataFlowAnalyze();
+
+    void getIndex(int *index,int funcRef,std::string *name);
+
+    void dag();
+
+    void getNode(ListNode *nodeList[],int length,std::string *name,ListNode **listNode);
+
+    void initBlock(int index);
 
 };

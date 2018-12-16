@@ -30,11 +30,11 @@ void Compiler::switchMidCode(int op) {
     this->midCodes[i - 1] = temp;
 }
 
-void Compiler::outputMid() {
+void Compiler::outputMid(std::ofstream &ofStream) {
     for (int i = 0; i < this->midCodeIndex; i++) {
         midCode *code = this->midCodes[i];
-        this->midOutFile << this->midMessage[code->op] << " " << *code->op1 << " " << *code->op2 << " " << *code->res
-                         << std::endl;
+        ofStream << this->midMessage[code->op] << " " << *code->op1 << " " << *code->op2 << " " << *code->res
+                 << std::endl;
     }
 }
 

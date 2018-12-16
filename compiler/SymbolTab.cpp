@@ -115,85 +115,87 @@ symbol *Compiler::push(std::string *name, int returnType, int symbolType, int fe
     return sym;
 }
 
-void Compiler::outputSymbol() {
-    std::stringstream  stringStream = std::stringstream();
-    for(int i=0;i<this->funcNum;i++){
+void Compiler::outputSymbol(std::ofstream &ofStream) {
+    std::stringstream stringStream = std::stringstream();
+    for (int i = 0; i < this->funcNum; i++) {
+        stringStream<<"No"<<i<<"function"<<std::endl;
         symbol **tab = this->funcSymbolTab[i];
         int num = this->funcSymbolNum[i];
-        for(int j=0;j<num;j++){
+        for (int j = 0; j < num; j++) {
             symbol *sym = tab[j];
-            stringStream << j << " " << *(sym->name) << " " << sym->line+1 << " ";
-            switch (sym->symbolType){
+            stringStream << j << " " << *(sym->name) << " " << sym->line + 1 << " ";
+            switch (sym->symbolType) {
                 case CONSTSYM:
-                    stringStream<<"常量 ";
+                    stringStream << "常量 ";
                     break;
                 case SIMPLESYM:
-                    stringStream<<"简单变量 ";
+                    stringStream << "简单变量 ";
                     break;
                 case ARRAYSYM:
-                    stringStream<<"数组 ";
+                    stringStream << "数组 ";
                     break;
                 case PARASYM:
-                    stringStream<<"参数 ";
+                    stringStream << "参数 ";
                     break;
                 case FUNCSYM:
-                    stringStream<<"函数 ";
+                    stringStream << "函数 ";
                     break;
             }
-            switch (sym->returnType){
+            switch (sym->returnType) {
                 case INTSYM:
-                    stringStream<<"int ";
+                    stringStream << "int ";
                     break;
                 case CHARSYM:
-                    stringStream<<"char ";
+                    stringStream << "char ";
                     break;
                 case VOIDSYM:
-                    stringStream<<"void ";
+                    stringStream << "void ";
                     break;
             }
-            stringStream<<sym->feature<<" "<<sym->address<<" ";
-            if(sym->reg == -1)
-                stringStream<<"无寄存器"<<std::endl;
+            stringStream << sym->feature << " " << sym->address << " ";
+            if (sym->reg == -1)
+                stringStream << "无寄存器" << std::endl;
             else
-                stringStream<< (sym->reg<(MAXREG/2)?"$t":"$s") << sym->reg%(MAXREG/2)<<std::endl;
+                stringStream << (sym->reg < (MAXREG / 2) ? "$t" : "$s") << sym->reg % (MAXREG / 2) << std::endl;
         }
     }
-    for(int i=0;i<this->top;i++){
+    stringStream<<"global"<<std::endl;
+    for (int i = 0; i < this->top; i++) {
         symbol *sym = this->symbolTab[i];
-        stringStream << i << " " << *(sym->name) << " " << sym->line+1 << " ";
-        switch (sym->symbolType){
+        stringStream << i << " " << *(sym->name) << " " << sym->line + 1 << " ";
+        switch (sym->symbolType) {
             case CONSTSYM:
-                stringStream<<"常量 ";
+                stringStream << "常量 ";
                 break;
             case SIMPLESYM:
-                stringStream<<"简单变量 ";
+                stringStream << "简单变量 ";
                 break;
             case ARRAYSYM:
-                stringStream<<"数组 ";
+                stringStream << "数组 ";
                 break;
             case PARASYM:
-                stringStream<<"参数 ";
+                stringStream << "参数 ";
                 break;
             case FUNCSYM:
-                stringStream<<"函数 ";
+                stringStream << "函数 ";
                 break;
         }
-        switch (sym->returnType){
+        switch (sym->returnType) {
             case INTSYM:
-                stringStream<<"int ";
+                stringStream << "int ";
                 break;
             case CHARSYM:
-                stringStream<<"char ";
+                stringStream << "char ";
                 break;
             case VOIDSYM:
-                stringStream<<"void ";
+                stringStream << "void ";
                 break;
         }
-        stringStream<<sym->feature<<" "<<sym->address<<" ";
-        if(sym->reg == -1)
-            stringStream<<"无寄存器"<<std::endl;
+        stringStream << sym->feature << " " << sym->address << " ";
+        if (sym->reg == -1)
+            stringStream << "无寄存器" << std::endl;
         else
-            stringStream<< (sym->reg<(MAXREG/2)?"$t":"$s") << sym->reg%(MAXREG/2)<<std::endl;
+            stringStream << (sym->reg < (MAXREG / 2) ? "$t" : "$s") << sym->reg % (MAXREG / 2) << std::endl;
     }
-    this->symbolOutFile<<stringStream.str()<<std::endl;
+    ofStream << stringStream.str() << std::endl;
 }

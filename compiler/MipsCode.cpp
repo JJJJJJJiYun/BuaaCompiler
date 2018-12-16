@@ -9,7 +9,10 @@
 
 void Compiler::pushCode(std::string *code) {
     this->mipsCodes[this->mipsIndex] = code;
-    this->mipsOutFile << *(this->mipsCodes[this->mipsIndex++]) << std::endl;
+    if (!this->optimized)
+        this->mipsOutFile << *(this->mipsCodes[this->mipsIndex++]) << std::endl;
+    else
+        this->mipsOptOutFile << *(this->mipsCodes[this->mipsIndex++]) << std::endl;
 }
 
 void Compiler::generateCode(std::string *code) {
@@ -266,7 +269,7 @@ void Compiler::getResultReg(std::string *rd, std::string *reg) {
         symbol *sym = 0;
         this->findSym(rd, &sym, &flag);
         int regIndex = sym->reg;
-        if (!regIndex == -1) {
+        if (!(regIndex == -1)) {
             std::stringstream stringStream = std::stringstream();
             stringStream << (regIndex < (MAXREG / 2) ? "$t" : "$s") << regIndex % (MAXREG / 2);
             *reg = stringStream.str();

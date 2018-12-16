@@ -7,6 +7,7 @@ file(REMOVE_RECURSE
         "CMakeFiles/compiler.dir/SymbolTab.cpp.o"
         "CMakeFiles/compiler.dir/MidCode.cpp.o"
         "CMakeFiles/compiler.dir/MipsCode.cpp.o"
+        "CMakeFiles/compiler.dir/Optimization.cpp.o"
         "compiler.pdb"
         "compiler"
         )

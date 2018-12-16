@@ -1155,7 +1155,9 @@ void Compiler::mainDef() {
     this->pushMidCode(FUNC, new std::string(), new std::string(), new std::string("main"));
     this->compoundProcess(&flag, VOIDSYM, name);
     if (this->sym == RBRACE) {
+        int tempTop = this->top;
         this->pop();
+        this->top = tempTop;
         this->pushMidCode(EXIT, new std::string(), new std::string(), new std::string());
         return;
     } else

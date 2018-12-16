@@ -6,12 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.cpp
-iostream
--
-Compiler.h
-/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
-
 /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
 fstream
 -
@@ -25,6 +19,8 @@ SymbolTab.h
 /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/SymbolTab.h
 MidCode.h
 /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MidCode.h
+Optimization.h
+/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Optimization.h
 
 /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Error.h
 string
@@ -34,7 +30,23 @@ string
 string
 -
 
+/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Optimization.cpp
+Optimization.h
+/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Optimization.h
+Compiler.h
+/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Compiler.h
+definition.h
+/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/definition.h
+
+/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Optimization.h
+string
+-
+
 /Users/jjjjjjjiyun/学习/buaa_compiler/compiler/SymbolTab.h
+string
+-
+
+/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/definition.h
 string
 -
 

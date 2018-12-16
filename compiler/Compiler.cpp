@@ -68,7 +68,8 @@ Compiler::Compiler(char *path) {
     this->errorMessage[87] = "while missing error";
 
     /*----------符号表初始化----------*/
-    this->symbolOutFile = std::ofstream("symbol.txt",std::ios::out);
+    this->symbolOutFile = std::ofstream("symbol.txt", std::ios::out);
+    this->symbolOptOutFile = std::ofstream("optSymbol.txt",std::ios::out);
     this->index = 0;
     this->top = 0;
     this->address = 0;
@@ -79,6 +80,7 @@ Compiler::Compiler(char *path) {
     /*--------中间代码初始化----------*/
     this->midCodeIndex = 0;
     this->midOutFile = std::ofstream("mid.txt", std::ios::out);
+    this->midOptOutFile = std::ofstream("optMid.txt", std::ios::out);
     this->midMessage[100] = "PARA";
     this->midMessage[101] = "CALL";
     this->midMessage[102] = "RET";
@@ -103,10 +105,21 @@ Compiler::Compiler(char *path) {
 
     /*----------目标代码初始化----------*/
     this->mipsOutFile = std::ofstream("mips.asm", std::ios::out);
+    this->mipsOptOutFile = std::ofstream("optMips.asm", std::ios::out);
     this->mipsIndex = 0;
     this->currentRef = -1;
     for (int i = 0; i < MAXREG; i++)
         this->regs[i] = 0;
+
+    /*----------优化初始化----------*/
+    this->blockOutFile = std::ofstream("block.txt", std::ios::out);
+    this->dataAnalyzeOutFile = std::ofstream("dataAnalyze.txt", std::ios::out);
+    this->dagOutFile = std::ofstream("dag.txt",std::ios::out);
+    this->blockIndex = 0;
+    for (int i = 0; i < MAXMIDCODE; i++) {
+        this->blockBeginFlag[i] = false;
+    }
+
 }
 
 void Compiler::begin() {
@@ -115,7 +128,18 @@ void Compiler::begin() {
         this->printError();
         return;
     }
-    this->outputSymbol();
-    this->outputMid();
+    this->outputSymbol(this->symbolOutFile);
+    //未优化
+    this->outputMid(this->midOutFile);
+    this->generate();
+    //优化
+    this->optimize();
+    this->outputSymbol(this->symbolOptOutFile);
+    this->outputMid(this->midOptOutFile);
+    this->mipsIndex = 0;
+    this->currentRef = -1;
+    for (int i = 0; i < MAXREG; i++)
+        this->regs[i] = 0;
+    this->optimized = true;
     this->generate();
 }

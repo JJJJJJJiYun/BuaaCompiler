@@ -112,6 +112,12 @@
 		<Unit filename="/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/MipsCode.h">
 			<Option target="compiler"/>
 		</Unit>
+		<Unit filename="/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Optimization.cpp">
+			<Option target="compiler"/>
+		</Unit>
+		<Unit filename="/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/Optimization.h">
+			<Option target="compiler"/>
+		</Unit>
 		<Unit filename="/Users/jjjjjjjiyun/学习/buaa_compiler/compiler/SymbolTab.cpp">
 			<Option target="compiler"/>
 		</Unit>
