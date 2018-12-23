@@ -98,6 +98,7 @@ void main(){
     if(variableInt1>variableInt2){
         tempChar = funcReturnChar(variableChar1);
         printf(tempChar);
+        printf(funcReturnChar('d')+1);
     }
     if(variableChar1 == constChar1){
         funcRelation(variableInt1);

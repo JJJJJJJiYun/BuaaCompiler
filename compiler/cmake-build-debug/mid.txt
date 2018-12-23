@@ -162,6 +162,11 @@ PARA variableChar1 0 variableChar1
 CALL   funcReturnChar
 ADD #RET 0 tempChar
 PRINT tempChar char tempChar
+PARA 100 0 100
+CALL   funcReturnChar
+ADD #RET 0 $t18
+ADD $t18 1 $t18
+PRINT $t18 int $t18
 GOTO   $label25
 LABEL   $label24
 LABEL   $label25
@@ -181,12 +186,12 @@ CALL   funcDoWhileAndFor
 GOTO   $label31
 LABEL   $label30
 LABEL   $label31
-RARRAY variableCharArray 0 $t18
-NEQU variableChar1 $t18 $label32
+RARRAY variableCharArray 0 $t19
+NEQU variableChar1 $t19 $label32
 PARA variableInt1 0 variableInt1
 CALL   funcRecursion
-ADD #RET 0 $t19
-PRINT $t19 int $t19
+ADD #RET 0 $t20
+PRINT $t20 int $t20
 GOTO   $label33
 LABEL   $label32
 LABEL   $label33

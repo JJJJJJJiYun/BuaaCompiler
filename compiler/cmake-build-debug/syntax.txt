@@ -156,6 +156,7 @@ if statement
 condition statement
 assign statement
 printf
+printf
 if statement
 condition statement
 func statement

@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/jjjjjjjiyun/学习/buaa_compiler/test/WF.cpp
+iostream
+-
+cstdio
+-
+algorithm
+-
+cstring
+-
+cctype
+-
+vector
+-
+string
+-
+queue
+-
+map
+-
+set
+-
+sstream
+-
+

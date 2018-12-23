@@ -1,0 +1,149 @@
+const int ten = 10,eleven = 11,nega = -5;
+const char Ch = 'c',N = 'n';
+
+int abcdefghijklmnopqrstuvwxyz1,_12345_;
+char ABCDEFGHIJKLMNOPQRSTUVWXYZ2;
+int array[20],array2[20];
+
+int factorial(int n)
+{
+    const int One = 1;
+    if(n==One)
+        return (n);
+    else
+        return (n*factorial(n-1));
+}
+
+int fibo(int n)
+{
+    if(n==1)
+        return (1);
+    if(n==2)
+        return (1);
+    return (fibo(n-1)+fibo(n-2));
+}
+
+char getK()
+{
+    char K2;
+    K2 = 'K';
+    return (K2);
+}
+
+void output(int a,int b,char c)
+{
+    printf("Complier");
+    printf(a);
+    printf(b);
+    printf(c);
+    return;
+}
+
+void CompareWithTen(int tmp)
+{
+    if(tmp>ten)
+        printf("Bigger than ten");
+    else if(tmp==ten)
+        printf("Equal to ten");
+    else 
+        printf("Less than ten");
+    if(tmp>=ten)
+        printf("Bigger than ten or equal to ten");
+    if(tmp<=ten)
+        printf("Less than ten or equal to ten");
+    else
+    {
+        {
+            ;;;
+        }
+    }
+    if(tmp)
+        printf("Not equal to zero");
+    else
+        printf("Equal to zero");
+
+    return;
+}
+
+void WhileTest()
+{
+    int tmp,i;
+    tmp=0;
+    i=0;
+    do
+    {
+        tmp=tmp+1;
+        printf(tmp);
+    }
+    while(tmp<5)
+	
+    do {;{printf(6);}}
+    while(1>2)
+
+    do
+    {
+        array[i]=+i+(-i)+i;
+        array2[i]=20*(19-i)/20;
+        i=i+1;
+    }while(i<20)
+}
+
+void ForTest()
+{
+    int i,j;
+    for(i=0;i<5;i=i+1)
+        printf("For loop1:",i);
+    for(j=8;j>0;j=j-2)
+        printf("For loop2:",j);
+    for(i=0;i<20;i=i+1)
+    {
+        array[i] = array[i]+array2[i];
+        printf("For loop3:",array[i]);
+    }
+    return;
+}
+
+void main()
+{
+    char s[100];
+    int int1,int2,int3,nums[100],tmp,char1,char2;
+
+    char1 = Ch-('1'-'0');
+    char2 = Ch+'1'-'0';
+    printf("char1:",char1);
+    printf("char2:",char2);
+    
+    int1 = 2;
+    int2 = int1*ten;
+    int3 = ten/int1;
+    printf("int2:",int2);
+    printf("int3:",int3);
+
+    output(ten,int1,Ch);
+
+    printf("Statement:",+int2/int3+int1*int3*int1*int3/int1/int3+ten-10);
+
+    printf("Input a num (compared with ten):");
+    scanf(tmp);
+    CompareWithTen(tmp);
+    
+    WhileTest();
+    ForTest();
+
+    nums[0]=1;
+    printf(-nums[0]+(1-2));
+    s[0]='Z';
+    printf(s[0]);
+
+    printf("Input a num to calculate its factorial");
+    scanf(tmp);
+    printf("Factorial:",factorial(tmp));
+
+    printf("Input a num to calculate the fibonacci sequence");
+    scanf(tmp);
+    printf("Fibonacci:",fibo(tmp));
+
+    printf(getK());
+
+    return;
+}

@@ -626,24 +626,24 @@ addi $sp, $sp, 80
 jr $ra
 nop
 main:
-sw $t0, -40($sp)
-sw $t1, -44($sp)
-sw $t2, -48($sp)
-sw $t3, -52($sp)
-sw $t4, -56($sp)
-sw $t5, -60($sp)
-sw $t6, -64($sp)
-sw $s0, -68($sp)
-sw $s1, -72($sp)
-sw $s2, -76($sp)
-sw $s3, -80($sp)
-sw $s4, -84($sp)
-sw $s5, -88($sp)
-sw $s6, -92($sp)
-sw $fp, -96($sp)
-sw $ra, -100($sp)
+sw $t0, -44($sp)
+sw $t1, -48($sp)
+sw $t2, -52($sp)
+sw $t3, -56($sp)
+sw $t4, -60($sp)
+sw $t5, -64($sp)
+sw $t6, -68($sp)
+sw $s0, -72($sp)
+sw $s1, -76($sp)
+sw $s2, -80($sp)
+sw $s3, -84($sp)
+sw $s4, -88($sp)
+sw $s5, -92($sp)
+sw $s6, -96($sp)
+sw $fp, -100($sp)
+sw $ra, -104($sp)
 add $fp, $sp, $zero
-addi $sp, $sp, -104
+addi $sp, $sp, -108
 li $t7, 7
 sw $t7, -8($fp)
 li $t7, 17
@@ -761,6 +761,23 @@ syscall
 li $v0, 4
 la $a0, break
 syscall
+li $t7, 100
+sw $t7, 0($sp)
+addi $sp, $sp, -4
+jal funcReturnChar
+nop
+addi $t7, $v0, 0
+sw $t7, -32($fp)
+lw $t9, -32($fp)
+addi $t7, $t9, 1
+sw $t7, -32($fp)
+li $v0, 1
+lw $t7, -32($fp)
+add $a0, $t7, $zero
+syscall
+li $v0, 4
+la $a0, break
+syscall
 j $label25
 nop
 $label24:
@@ -802,9 +819,9 @@ addi $t9, $zero, 19
 sll $t9, $t9, 2
 addu $t9, $t9, $gp
 lw $t7, 0($t9)
-sw $t7, -32($fp)
+sw $t7, -36($fp)
 lw $t9, 72($gp)
-lw $t8, -32($fp)
+lw $t8, -36($fp)
 bne $t9, $t8, $label32
 nop
 lw $t7, 24($gp)
@@ -813,9 +830,9 @@ addi $sp, $sp, -4
 jal funcRecursion
 nop
 addi $t7, $v0, 0
-sw $t7, -36($fp)
+sw $t7, -40($fp)
 li $v0, 1
-lw $t7, -36($fp)
+lw $t7, -40($fp)
 add $a0, $t7, $zero
 syscall
 li $v0, 4

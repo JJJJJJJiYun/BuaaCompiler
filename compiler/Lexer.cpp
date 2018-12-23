@@ -49,7 +49,7 @@ void Compiler::getChar() {
 }
 
 void Compiler::skip() {
-    while (ch == ' ' || ch == '\n' || ch == '\t') {
+    while (ch == ' ' || ch == '\n' || ch == '\t'|| ch=='\r') {
         getChar();
     }
 }
